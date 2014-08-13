@@ -44,6 +44,10 @@ public class Player implements MouseListener {
 		this.location = location;
 		this.dice = dice;
 	}
+	
+	public void updateMove(int amountLeft){
+		currentMoveAmount = amountLeft;
+	}
 
 	public String getName() {
 		return name;
@@ -76,6 +80,7 @@ public class Player implements MouseListener {
 	 */
 	public void setTurn() {
 		isTurn = !isTurn;
+		hasRolled = false;
 	}
 
 	/**
@@ -113,13 +118,8 @@ public class Player implements MouseListener {
 	 *            - the new location that the player wishes to move to.
 	 */
 	private void move(Location newLocation) {
-		int pathInclution = 1;
-		if (currentPath != null && currentPath.size() - pathInclution <= currentMoveAmount) {
-			if (Move.moveToRoom(location, newLocation)){isInRoom = true;System.out.println(isInRoom);}
+		if (Move.makeMove(location, newLocation, this)){
 			location = newLocation;
-			currentMoveAmount -= currentPath.size() - pathInclution;
-		} else {
-			currentPath = null;
 		}
 	}
 	
@@ -143,28 +143,10 @@ public class Player implements MouseListener {
 		}
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	// unused methods.
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
 
 }

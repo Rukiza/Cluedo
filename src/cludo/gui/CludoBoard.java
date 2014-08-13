@@ -28,15 +28,15 @@ public class CludoBoard {
 
 	// ===========BoardTable==============//
 	// Rooms
-	private final char kitchen = 'K';
-	private final char ballroom = 'B';
-	private final char conservatory = 'C';
-	private final char library = 'L';
-	private final char study = 'S';
-	private final char hall = 'H';
-	private final char diningRoom = 'D';
-	private final char billiardRoom = 'I';
-	private final char lounge = 'O';
+	public static final char kitchen = 'K';
+	public static final char ballroom = 'B';
+	public static final char conservatory = 'C';
+	public static final char library = 'L';
+	public static final char study = 'S';
+	public static final char hall = 'H';
+	public static final char diningRoom = 'D';
+	public static final char billiardRoom = 'I';
+	public static final char lounge = 'O';
 	private final char caller = 'R';
 
 	// Secret passages
@@ -279,6 +279,15 @@ public class CludoBoard {
 		return false;
 	}
 	
+	public Room getRoomPlayerIsIn(Player player){
+		for (Room r: rooms){
+			if (r.hasPlayer(player)){
+				return r;
+			}
+		}
+		return null;
+	}
+	
 	public boolean moveToAndFromRooms(Location location){
 		if (isDoor(location)){
 			for (Room r: rooms){
@@ -304,6 +313,19 @@ public class CludoBoard {
 				|| place == 'O' || place == 'R') {
 			return true;
 		}
+		return false;
+	}
+	
+	/**
+	 * requires  location is not null
+	 * ensure that the it will return true if the location is of the room type else false
+	 * @param location - places on the board
+	 * @param roomType - room that the place might be in
+	 * @return - boolean relating to the location.
+	 */
+	public boolean isRoom(Location location, char roomType){
+		char place = getCharAtLocation(location);
+		if (roomType == place) return true;
 		return false;
 	}
 
