@@ -57,6 +57,7 @@ public class Room {
 		if (name.equals("BallRoom")) return CludoBoard.ballroom;
 		if (name.equals("DiningRoom")) return CludoBoard.diningRoom;
 		if (name.equals("Conservatory")) return CludoBoard.conservatory;
+		if (name.equals("Library")) return CludoBoard.library;
 		return CludoBoard.lounge;
 	}
 }
