@@ -21,6 +21,7 @@ public class CludoBoard {
 	private Deck deck = new Deck();
 	private Solution solution;
 	private List<Room> rooms;
+	private boolean hasStarted;
 
 	// Turn order
 	private Queue<Player> turn;
@@ -90,6 +91,7 @@ public class CludoBoard {
 		setSolution();
 		dealCards();
 		setRooms();
+		hasStarted = true;
 		return true;
 	}
 
@@ -346,6 +348,17 @@ public class CludoBoard {
 
 	public Player getTurnPlayer() {
 		return turn.peek();
+	}
+	
+	public void endTurn(){
+		Player player = turn.poll();
+		player.setTurn();
+		turn.offer(player);
+		turn.peek().setTurn();
+	}
+	
+	public boolean hasStarted(){
+		return hasStarted;
 	}
 
 }

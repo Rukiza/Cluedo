@@ -116,8 +116,9 @@ public class Main {
 									selectedCharacter), board
 									.findSpawn(selectedCharacter), dice));
 							selected.setEnabled(false);
+							playerName.setText("");
 						}
-						playerName.setText("");
+						
 					}
 				}
 			}

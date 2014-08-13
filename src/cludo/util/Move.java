@@ -12,7 +12,7 @@ public class Move {
 	
 	public static boolean moveToRoom(Location oldLocation, Location newLocation){
 		
-		return false;
+		return true;
 	}
 	
 	public static boolean canMoveHere(Location to, Location from){
