@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import cludo.game.Room;
 import cludo.game.cards.Card;
 import cludo.game.player.Player;
 import cludo.util.Dice;
@@ -119,6 +120,20 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
+		if (!board.hasStarted()){
+			JOptionPane.showMessageDialog(null,
+					"Wait for the game to start");
+			return;
+		}
+		Room currentRoom = board.getRoomPlayerIsIn(board.getTurnPlayer());
+		if (currentRoom == null) {
+			JOptionPane.showMessageDialog(null,
+					"You  need to be in a room to saggest");
+			return;
+		}
+		JLabel room = new JLabel(currentRoom.getCard().toString());
+		panel.add(room);
+
 		JComboBox<Card> character = new JComboBox<Card>();
 		character.addItem(new Card(Card.Type.CHARACTER, "MissScarlett"));
 		character.addItem(new Card(Card.Type.CHARACTER, "MrsWhite"));
@@ -138,10 +153,11 @@ public class CludoFrame extends JFrame implements WindowListener {
 		weapon.addItem(new Card(Card.Type.WEAPON, "Leadpipe"));
 
 		panel.add(weapon);
-
+		pane.setLocationRelativeTo(null);
 		pane.add(panel);
-		pane.setSize(300, 100);
+		pane.pack();
 		pane.setVisible(true);
+		
 	}
 
 	public void windowClosing(WindowEvent e) {
