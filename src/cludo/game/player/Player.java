@@ -131,7 +131,7 @@ public class Player implements MouseListener {
 		}
 	}
 
-	public void refute(Suggestion suggestion) {
+	public Card refute(Suggestion suggestion) {
 		List<Card> cardsCanRefuteWith = suggestion.refute(hand);
 		if (!cardsCanRefuteWith.isEmpty()) {
 			JPanel panel = new JPanel();
@@ -143,8 +143,9 @@ public class Player implements MouseListener {
 			JOptionPane.showMessageDialog(null, panel,
 					"Please select something to refute with.",
 					JOptionPane.NO_OPTION);
+			return (Card)combo.getSelectedItem();
 		}
-
+		return null;
 	}
 
 	public int getCurrentMove() {
