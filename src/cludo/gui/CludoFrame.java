@@ -21,6 +21,7 @@ import javax.swing.JToolBar;
 
 import cludo.game.Room;
 import cludo.game.cards.Card;
+import cludo.game.guess.Suggestion;
 import cludo.game.player.Player;
 import cludo.util.Dice;
 
@@ -116,7 +117,7 @@ public class CludoFrame extends JFrame implements WindowListener {
 	}
 
 	private static void saggest() {
-		JDialog pane = new JDialog();
+		final JDialog pane = new JDialog();
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
@@ -125,16 +126,16 @@ public class CludoFrame extends JFrame implements WindowListener {
 					"Wait for the game to start");
 			return;
 		}
-		Room currentRoom = board.getRoomPlayerIsIn(board.getTurnPlayer());
+		final Room currentRoom = board.getRoomPlayerIsIn(board.getTurnPlayer());
 		if (currentRoom == null) {
 			JOptionPane.showMessageDialog(null,
-					"You  need to be in a room to saggest");
+					"You  need to be in a room to suggestion");
 			return;
 		}
 		JLabel room = new JLabel(currentRoom.getCard().toString());
 		panel.add(room);
 
-		JComboBox<Card> character = new JComboBox<Card>();
+		final JComboBox<Card> character = new JComboBox<Card>();
 		character.addItem(new Card(Card.Type.CHARACTER, "MissScarlett"));
 		character.addItem(new Card(Card.Type.CHARACTER, "MrsWhite"));
 		character.addItem(new Card(Card.Type.CHARACTER, "MrsPeacock"));
@@ -144,7 +145,7 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 		panel.add(character);
 
-		JComboBox<Card> weapon = new JComboBox<Card>();
+		final JComboBox<Card> weapon = new JComboBox<Card>();
 		weapon.addItem(new Card(Card.Type.WEAPON, "Spanner"));
 		weapon.addItem(new Card(Card.Type.WEAPON, "Dagger"));
 		weapon.addItem(new Card(Card.Type.WEAPON, "Rope"));
@@ -153,9 +154,28 @@ public class CludoFrame extends JFrame implements WindowListener {
 		weapon.addItem(new Card(Card.Type.WEAPON, "Leadpipe"));
 
 		panel.add(weapon);
+		
+
+		JButton button = new JButton("Suggestion");
+		panel.add(button);
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Card roomChosen = currentRoom.getCard();
+				Card charactersChosen = (Card)character.getSelectedItem();
+				Card weaponChosen = (Card)weapon.getSelectedItem();
+				Suggestion sug = new Suggestion(roomChosen, weaponChosen, charactersChosen);
+				pane.dispose();
+				board.handleSuggestion(sug);
+			}
+		});
+		
+		
 		pane.setLocationRelativeTo(null);
 		pane.add(panel);
 		pane.pack();
+		
 		pane.setVisible(true);
 		
 	}

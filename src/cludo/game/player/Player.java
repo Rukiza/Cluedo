@@ -1,13 +1,21 @@
 package cludo.game.player;
 
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import cludo.Main;
 import cludo.game.cards.*;
+import cludo.game.guess.Suggestion;
 import cludo.util.Dice;
 import cludo.util.Location;
 import cludo.util.Move;
@@ -44,8 +52,8 @@ public class Player implements MouseListener {
 		this.location = location;
 		this.dice = dice;
 	}
-	
-	public void updateMove(int amountLeft){
+
+	public void updateMove(int amountLeft) {
 		currentMoveAmount = amountLeft;
 	}
 
@@ -118,11 +126,27 @@ public class Player implements MouseListener {
 	 *            - the new location that the player wishes to move to.
 	 */
 	private void move(Location newLocation) {
-		if (Move.makeMove(location, newLocation, this)){
+		if (Move.makeMove(location, newLocation, this)) {
 			location = newLocation;
 		}
 	}
-	
+
+	public void refute(Suggestion suggestion) {
+		List<Card> cardsCanRefuteWith = suggestion.refute(hand);
+		if (!cardsCanRefuteWith.isEmpty()) {
+			JPanel panel = new JPanel();
+			JComboBox<Card> combo = new JComboBox<Card>();
+			for (Card c : cardsCanRefuteWith) {
+				combo.addItem(c);
+			}
+			panel.add(combo);
+			JOptionPane.showMessageDialog(null, panel,
+					"Please select something to refute with.",
+					JOptionPane.NO_OPTION);
+		}
+
+	}
+
 	public int getCurrentMove() {
 		return currentMoveAmount;
 	}
@@ -144,9 +168,16 @@ public class Player implements MouseListener {
 	}
 
 	// unused methods.
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mouseClicked(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	public void mousePressed(MouseEvent e) {
+	}
 
 }

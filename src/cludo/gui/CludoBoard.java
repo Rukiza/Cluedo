@@ -11,6 +11,7 @@ import org.hamcrest.core.IsCollectionContaining;
 import cludo.game.Room;
 import cludo.game.cards.Deck;
 import cludo.game.guess.Solution;
+import cludo.game.guess.Suggestion;
 import cludo.game.player.Player;
 import cludo.util.Location;
 
@@ -249,6 +250,16 @@ public class CludoBoard {
 			}
 		}
 		return false;
+	}
+	
+	public void handleSuggestion(Suggestion suggestion){
+		Player p = turn.poll();
+		turn.offer(p);
+		while (!turn.peek().isTurn()){
+			p = turn.poll();
+			p.refute(suggestion);
+			turn.offer(p);
+		}
 	}
 
 	public boolean isSquareEmpty(Location location) {
