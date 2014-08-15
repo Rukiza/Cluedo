@@ -21,6 +21,7 @@ import javax.swing.JToolBar;
 
 import cludo.game.Room;
 import cludo.game.cards.Card;
+import cludo.game.guess.Accuse;
 import cludo.game.guess.Suggestion;
 import cludo.game.player.Player;
 import cludo.util.Dice;
@@ -57,6 +58,7 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 		this.add(canvas, BorderLayout.CENTER);
 		this.setSize(1000, 720);
+		this.setResizable(false);
 		this.setVisible(true);
 
 	}
@@ -64,14 +66,24 @@ public class CludoFrame extends JFrame implements WindowListener {
 	private void addButtonToToolBar(JToolBar eventBar) {
 		JButton button = new JButton("Accuse");
 		eventBar.add(button);
-		button = new JButton("Saggest");
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals("Accuse")){
+					accuse();
+				}
+				
+			}
+		});
+		
+		button = new JButton("Suggest");
 		eventBar.add(button);
 		button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.getActionCommand().equals("Saggest")) {
-					System.out.println("um am i getting here");
+				if (e.getActionCommand().equals("Suggest")) {
 					CludoFrame.saggest();
 				}
 			}
@@ -135,24 +147,12 @@ public class CludoFrame extends JFrame implements WindowListener {
 		JLabel room = new JLabel(currentRoom.getCard().toString());
 		panel.add(room);
 
-		final JComboBox<Card> character = new JComboBox<Card>();
-		character.addItem(new Card(Card.Type.CHARACTER, "MissScarlett"));
-		character.addItem(new Card(Card.Type.CHARACTER, "MrsWhite"));
-		character.addItem(new Card(Card.Type.CHARACTER, "MrsPeacock"));
-		character.addItem(new Card(Card.Type.CHARACTER, "ReverandGreen"));
-		character.addItem(new Card(Card.Type.CHARACTER, "ColonelMustard"));
-		character.addItem(new Card(Card.Type.CHARACTER, "ProfessorPlum"));
+		final JComboBox<Card> character = getCharacters();
 
 		panel.add(character);
 
-		final JComboBox<Card> weapon = new JComboBox<Card>();
-		weapon.addItem(new Card(Card.Type.WEAPON, "Spanner"));
-		weapon.addItem(new Card(Card.Type.WEAPON, "Dagger"));
-		weapon.addItem(new Card(Card.Type.WEAPON, "Rope"));
-		weapon.addItem(new Card(Card.Type.WEAPON, "Candlestick"));
-		weapon.addItem(new Card(Card.Type.WEAPON, "Revolver"));
-		weapon.addItem(new Card(Card.Type.WEAPON, "Leadpipe"));
-
+		final JComboBox<Card> weapon = getWeapons();
+		
 		panel.add(weapon);
 		
 
@@ -179,7 +179,89 @@ public class CludoFrame extends JFrame implements WindowListener {
 		pane.setVisible(true);
 		
 	}
+	
+	private static void accuse(){
+		final JDialog pane = new JDialog();
 
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		if (!board.hasStarted()){
+			JOptionPane.showMessageDialog(null,
+					"Wait for the game to start");
+			return;
+		}
+		final JComboBox<Card> rooms = getRooms();
+		final JComboBox<Card> weapons = getWeapons();
+		final JComboBox<Card> characters = getCharacters();
+		
+		panel.add(rooms);
+
+
+		panel.add(characters);
+		
+		panel.add(weapons);
+		
+
+		JButton button = new JButton("Suggestion");
+		panel.add(button);
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Card roomChosen = (Card)rooms.getSelectedItem();
+				Card charactersChosen = (Card)characters.getSelectedItem();
+				Card weaponChosen = (Card)weapons.getSelectedItem();
+				Accuse accuse = new Accuse(roomChosen, weaponChosen, charactersChosen);
+				pane.dispose();
+				board.handleAccuse(accuse);
+			}
+		});
+		
+		
+		pane.setLocationRelativeTo(null);
+		pane.add(panel);
+		pane.pack();
+		
+		pane.setVisible(true);
+		
+	}
+	
+	private static JComboBox<Card> getWeapons(){
+		JComboBox<Card> weapon = new JComboBox<Card>();
+		weapon.addItem(new Card(Card.Type.WEAPON, "Spanner"));
+		weapon.addItem(new Card(Card.Type.WEAPON, "Dagger"));
+		weapon.addItem(new Card(Card.Type.WEAPON, "Rope"));
+		weapon.addItem(new Card(Card.Type.WEAPON, "Candlestick"));
+		weapon.addItem(new Card(Card.Type.WEAPON, "Revolver"));
+		weapon.addItem(new Card(Card.Type.WEAPON, "Leadpipe"));
+		return weapon;
+	}
+	
+	private static JComboBox<Card> getRooms(){
+		JComboBox<Card> room = new JComboBox<Card>();
+		room.addItem(new Card(Card.Type.ROOM, "Kitchen"));
+		room.addItem(new Card(Card.Type.ROOM, "Ballroom"));
+		room.addItem(new Card(Card.Type.ROOM, "Conservatory"));
+		room.addItem(new Card(Card.Type.ROOM, "BilliardRoom"));
+		room.addItem(new Card(Card.Type.ROOM, "Library"));
+		room.addItem(new Card(Card.Type.ROOM, "Study"));
+		room.addItem(new Card(Card.Type.ROOM, "Lounge"));
+		room.addItem(new Card(Card.Type.ROOM, "Hall"));
+		room.addItem(new Card(Card.Type.ROOM, "DiningRoom"));
+		return room;
+	}
+	
+	private static JComboBox<Card> getCharacters(){
+		JComboBox<Card> character = new JComboBox<Card>();
+		character.addItem(new Card(Card.Type.CHARACTER, "MissScarlett"));
+		character.addItem(new Card(Card.Type.CHARACTER, "MrsWhite"));
+		character.addItem(new Card(Card.Type.CHARACTER, "MrsPeacock"));
+		character.addItem(new Card(Card.Type.CHARACTER, "ReverandGreen"));
+		character.addItem(new Card(Card.Type.CHARACTER, "ColonelMustard"));
+		character.addItem(new Card(Card.Type.CHARACTER, "ProfessorPlum"));
+		return character;
+	}
+	
 	public void windowClosing(WindowEvent e) {
 		int option = JOptionPane.showConfirmDialog(CludoFrame.this, new JLabel(
 				"Exiting Cluedo"), "Confirm Exit", JOptionPane.YES_NO_OPTION,

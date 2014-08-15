@@ -6,12 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 import org.hamcrest.core.IsCollectionContaining;
 
 import cludo.Main;
 import cludo.game.Room;
 import cludo.game.cards.Card;
 import cludo.game.cards.Deck;
+import cludo.game.guess.Accuse;
 import cludo.game.guess.Solution;
 import cludo.game.guess.Suggestion;
 import cludo.game.player.Player;
@@ -25,6 +28,7 @@ public class CludoBoard {
 	private Solution solution;
 	private List<Room> rooms;
 	private boolean hasStarted;
+	private boolean gameOver;
 
 	// Turn order
 	private Queue<Player> turn;
@@ -417,6 +421,17 @@ public class CludoBoard {
 	
 	public boolean hasStarted(){
 		return hasStarted;
+	}
+
+	public void handleAccuse(Accuse accuse) {
+		if(solution.checkAccuse(accuse)){
+			JOptionPane.showMessageDialog(null, "You Win!!");
+			gameOver = true;
+		}
+		JOptionPane.showMessageDialog(null, "You Lose and have can't play");
+		turn.poll();
+		turn.peek().setTurn();
+		Main.canvas.repaint();
 	}
 
 }
