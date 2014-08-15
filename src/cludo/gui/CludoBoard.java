@@ -1,14 +1,9 @@
 package cludo.gui;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import javax.swing.JOptionPane;
-
-import org.hamcrest.core.IsCollectionContaining;
 
 import cludo.Main;
 import cludo.game.Room;
@@ -92,6 +87,13 @@ public class CludoBoard {
 		return null;
 	}
 
+	/**
+	 * Starts the game off
+	 * 
+	 * @param playerList
+	 *            - requires a list of players that are to be in the game
+	 * @return - returns a boolean for if the game has started always true;
+	 */
 	public boolean startGame(List<Player> playerList) {
 		setPlayers(playerList);
 		setTurnOrder();
@@ -102,6 +104,9 @@ public class CludoBoard {
 		return true;
 	}
 
+	/**
+	 * Sets up the rooms
+	 */
 	private void setRooms() {
 		rooms.add(new Room("Study", findDoors(study)));
 		rooms.add(new Room("Kitchen", findDoors(kitchen)));
@@ -111,24 +116,28 @@ public class CludoBoard {
 		rooms.add(new Room("Library", findDoors(library)));
 		rooms.add(new Room("Hall", findDoors(hall)));
 		rooms.add(new Room("Lounge", findDoors(lounge)));
-		for (Room r: rooms){
-			System.out.println(r);
-		}
 	}
 
+	/**
+	 * Finds the doors of rooms
+	 * 
+	 * @param room
+	 *            - requires a chard for room we are looking for doors two
+	 * @return - returns a list of doors to a room matching the char.
+	 */
 	private List<Location> findDoors(char room) {
 		List<Location> listOfLocations = new ArrayList<Location>();
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
 				if (board[j][i] == northDoor || board[j][i] == southDoor
 						|| board[j][i] == eastDoor || board[j][i] == westDoor) {
-					if (board[j+1][i] == room) {
+					if (board[j + 1][i] == room) {
 						listOfLocations.add(new Location(i, j));
-					} else if (board[j-1][i] == room) {
+					} else if (board[j - 1][i] == room) {
 						listOfLocations.add(new Location(i, j));
-					} else if (board[j][i+1] == room) {
+					} else if (board[j][i + 1] == room) {
 						listOfLocations.add(new Location(i, j));
-					} else if (board[j][i-1] == room) {
+					} else if (board[j][i - 1] == room) {
 						listOfLocations.add(new Location(i, j));
 					}
 				}
@@ -137,6 +146,9 @@ public class CludoBoard {
 		return listOfLocations;
 	}
 
+	/**
+	 * Deals out the cards to each player.
+	 */
 	private void dealCards() {
 		while (!deck.isEmpty()) {
 			Player p = turn.poll();
@@ -149,10 +161,20 @@ public class CludoBoard {
 		}
 	}
 
+	/**
+	 * Sets up the solution to the game.
+	 */
 	private void setSolution() {
 		solution = new Solution(deck);
 	}
 
+	/**
+	 * Loads in the board file for the game.
+	 * 
+	 * @param gameBoard
+	 *            - file name.
+	 * @return - returns a char array that represents the array
+	 */
 	public char[][] loadBoard(File gameBoard) {
 		char[][] temp = new char[25][25];
 		try {
@@ -168,6 +190,9 @@ public class CludoBoard {
 		return temp;
 	}
 
+	/**
+	 * Method that prints the board.
+	 */
 	public void test() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
@@ -177,10 +202,21 @@ public class CludoBoard {
 		}
 	}
 
+	/**
+	 * gets the board depricated ... not used anymore.
+	 * 
+	 * @return - returns the char reprsentaion of the board.
+	 */
 	protected char[][] getBoard() {
 		return board;
 	}
 
+	/**
+	 * converts a name to the char reprsentaion of there spawn point.
+	 * 
+	 * @param name
+	 * @return
+	 */
 	private char nameToChar(String name) {
 		if (name.equals("Miss Scarlet")) {
 			return spawnScarlet;
@@ -197,10 +233,20 @@ public class CludoBoard {
 		}
 	}
 
+	/**
+	 * Sets the players list.
+	 * 
+	 * @param playerList
+	 */
 	private void setPlayers(List<Player> playerList) {
 		this.playerList = playerList;
 	}
 
+	/**
+	 * Sets up the turn order
+	 * 
+	 * @return
+	 */
 	private boolean setTurnOrder() {
 		if (playerList == null) {
 			return false;
@@ -214,14 +260,35 @@ public class CludoBoard {
 		return true;
 	}
 
+	/**
+	 * Gets the width of the board logic incorect but board width and hight
+	 * should both be 25
+	 * 
+	 * @return
+	 */
 	public int getWidth() {
 		return board.length;
 	}
 
+	/**
+	 * returns the hight of the board.
+	 * 
+	 * @return
+	 */
 	public int getHeight() {
 		return board[0].length;
 	}
 
+	/**
+	 * Logic for checking that 2 squares are ajasent takeinto acount that you
+	 * can only enter a door from one direction.
+	 * 
+	 * @param to
+	 *            - the location that they are going to.
+	 * @param from
+	 *            - where they are coming from.
+	 * @return - return true if they can get there.
+	 */
 	public boolean isAdjacent(Location to, Location from) {
 		if (to.x >= 0 && to.x < board.length && to.y >= 0
 				&& to.y < board.length) {
@@ -257,28 +324,34 @@ public class CludoBoard {
 		}
 		return false;
 	}
-	
-	public void handleSuggestion(Suggestion suggestion){
+
+	/**
+	 * Logic for handling the players suggestions
+	 * 
+	 * @param suggestion
+	 *            - the suggestion a player may have.
+	 */
+	public void handleSuggestion(Suggestion suggestion) {
 		Main.canvas.refuteDrawCase = true;
 		Player turnPlayer = turn.poll();
 		turn.offer(turnPlayer);
 		Card c = null;
 		Player p = null;
 		Player refuteingPlayer = null;
-		while (!turn.peek().isTurn()){
-			
+		while (!turn.peek().isTurn()) {
+
 			p = turn.poll();
 			p.setRefuting(true);
 			Main.canvas.repaint();
 			c = p.refute(suggestion, turnPlayer);
 			turn.offer(p);
 			p.setRefuting(false);
-			if (c != null){
+			if (c != null) {
 				refuteingPlayer = p;
 				break;
 			}
 		}
-		while(!turn.peek().isTurn()){
+		while (!turn.peek().isTurn()) {
 			p.setRefuting(true);
 			Main.canvas.repaint();
 			p = turn.poll();
@@ -291,6 +364,13 @@ public class CludoBoard {
 		Main.canvas.repaint();
 	}
 
+	/**
+	 * Logic to tell if a square is empty
+	 * 
+	 * @param location
+	 *            - the location that is to be checked
+	 * @return - return true if empty false otherwise.
+	 */
 	public boolean isSquareEmpty(Location location) {
 		if (location.x >= 0 && location.x < board.length && location.y >= 0
 				&& location.y < board.length) {
@@ -309,34 +389,56 @@ public class CludoBoard {
 		}
 		return false;
 	}
-	
-	public boolean isInRoom(Player player){
-		for (Room r: rooms){
-			if (r.hasPlayer(player)){
+
+	/**
+	 * Checks if the player is in a room
+	 * 
+	 * @param player
+	 *            - player to be checked
+	 * @return - returns true if the player is in a room false otherwise
+	 */
+	public boolean isInRoom(Player player) {
+		for (Room r : rooms) {
+			if (r.hasPlayer(player)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Room getRoomPlayerIsIn(Player player){
-		for (Room r: rooms){
-			if (r.hasPlayer(player)){
+
+	/**
+	 * Gets the room the player is in (player must be in room or null is
+	 * returned
+	 * 
+	 * @param player
+	 *            - player to get the room that he is in.
+	 * @return - room the player is in or null
+	 */
+	public Room getRoomPlayerIsIn(Player player) {
+		for (Room r : rooms) {
+			if (r.hasPlayer(player)) {
 				return r;
 			}
 		}
 		return null;
 	}
-	
-	public boolean moveToAndFromRooms(Location location){
-		if (isDoor(location)){
-			for (Room r: rooms){
-				if(r.checkDoor(location)){
-					if (r.hasPlayer(getTurnPlayer())){
+
+	/**
+	 * Moves player to and from rooms
+	 * 
+	 * @param location
+	 *            - location that the player is standing to do this.
+	 * @return - if the location is a door the player will move in and out of
+	 *         the room depending.
+	 */
+	public boolean moveToAndFromRooms(Location location) {
+		if (isDoor(location)) {
+			for (Room r : rooms) {
+				if (r.checkDoor(location)) {
+					if (r.hasPlayer(getTurnPlayer())) {
 						r.playerLeavesRoom(getTurnPlayer());
 						return true;
-					}
-					else {
+					} else {
 						r.playerEntersRoom(getTurnPlayer());
 						return true;
 					}
@@ -346,6 +448,13 @@ public class CludoBoard {
 		return false;
 	}
 
+	/**
+	 * check that a location is a room or not.
+	 * 
+	 * @param location
+	 *            - location to be checked
+	 * @return- true if the location is a room false otherwise.
+	 */
 	public boolean isRoom(Location location) {
 		char place = getCharAtLocation(location);
 		if (place == 'K' || place == 'B' || place == 'C' || place == 'L'
@@ -355,20 +464,31 @@ public class CludoBoard {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * requires  location is not null
-	 * ensure that the it will return true if the location is of the room type else false
-	 * @param location - places on the board
-	 * @param roomType - room that the place might be in
+	 * requires location is not null ensure that the it will return true if the
+	 * location is of the room type else false
+	 * 
+	 * @param location
+	 *            - places on the board
+	 * @param roomType
+	 *            - room that the place might be in
 	 * @return - boolean relating to the location.
 	 */
-	public boolean isRoom(Location location, char roomType){
+	public boolean isRoom(Location location, char roomType) {
 		char place = getCharAtLocation(location);
-		if (roomType == place) return true;
+		if (roomType == place)
+			return true;
 		return false;
 	}
 
+	/**
+	 * Checks if the location is a outer wall
+	 * 
+	 * @param location
+	 *            - location to be checked.
+	 * @return - returns true if the place is a outerwall otherwise false.
+	 */
 	public boolean isOutterWall(Location location) {
 		char place = getCharAtLocation(location);
 		if (place == 'Q') {
@@ -377,6 +497,13 @@ public class CludoBoard {
 		return false;
 	}
 
+	/**
+	 * checks if the location is a floor space
+	 * 
+	 * @param location
+	 *            - location to be checked.
+	 * @return - true if the loction is a floor false otherwise
+	 */
 	public boolean isFloor(Location location) {
 		char place = getCharAtLocation(location);
 		if (place == 'n') {
@@ -385,6 +512,13 @@ public class CludoBoard {
 		return false;
 	}
 
+	/**
+	 * checks if the location is a spawn point
+	 * 
+	 * @param location
+	 *            - location to be checked
+	 * @return - return true if the location is a spwan false otherwise
+	 */
 	public boolean isSpawn(Location location) {
 		char place = getCharAtLocation(location);
 		if (place == spawnWhite || place == spawnPeacock
@@ -395,6 +529,13 @@ public class CludoBoard {
 		return false;
 	}
 
+	/**
+	 * Checks if a location is a door.
+	 * 
+	 * @param location
+	 *            - location to be checked.
+	 * @return - returns true if the location is on a door false otherwise.
+	 */
 	public boolean isDoor(Location location) {
 		char place = getCharAtLocation(location);
 		if (place == northDoor || place == southDoor || place == eastDoor
@@ -403,33 +544,74 @@ public class CludoBoard {
 		}
 		return false;
 	}
-	
-	private char getCharAtLocation(Location location){
+
+	/**
+	 * used to get the char at a board location. handles logical screw up during
+	 * load in keeps it from spreding to other classes
+	 * 
+	 * @param location
+	 *            - location that is matched to a char
+	 * @return - returns char at a location on the board.
+	 */
+	private char getCharAtLocation(Location location) {
 		return board[location.y][location.x];
 	}
 
+	/**
+	 * get the player whos turn it is.
+	 * 
+	 * @return - returns the player whos turn it is.
+	 */
 	public Player getTurnPlayer() {
 		return turn.peek();
 	}
-	
-	public void endTurn(){
+
+	/**
+	 * end the trun of the player who's turn it is.
+	 */
+	public void endTurn() {
 		Player player = turn.poll();
 		player.setTurn();
 		turn.offer(player);
 		turn.peek().setTurn();
 	}
-	
-	public boolean hasStarted(){
+
+	/**
+	 * checks of the game has been started.
+	 * 
+	 * @return
+	 */
+	public boolean hasStarted() {
 		return hasStarted;
 	}
 
+	/**
+	 * Checks if the game is over.
+	 * 
+	 * @return
+	 */
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	/**
+	 * handles accusations if they are wrong the player is out of the game if he
+	 * was the last player the game is over if they win the game is over
+	 * 
+	 * @param accuse
+	 *            - a accusation being made by a player.
+	 */
 	public void handleAccuse(Accuse accuse) {
-		if(solution.checkAccuse(accuse)){
+		if (solution.checkAccuse(accuse)) {
 			JOptionPane.showMessageDialog(null, "You Win!!");
 			gameOver = true;
 		}
 		JOptionPane.showMessageDialog(null, "You Lose and have can't play");
 		turn.poll();
+		if (turn.isEmpty()) {
+			gameOver = true;
+			return;
+		}
 		turn.peek().setTurn();
 		Main.canvas.repaint();
 	}

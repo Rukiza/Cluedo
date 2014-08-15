@@ -84,6 +84,10 @@ public class CludoFrame extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("Suggest")) {
+					if (board.isGameOver()){
+						JOptionPane.showMessageDialog(null, "Game is Over");
+						return;
+					}
 					CludoFrame.saggest();
 				}
 			}
@@ -95,7 +99,12 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (e.getActionCommand().equals("Roll Dice")) {
+					if (board.isGameOver()){
+						JOptionPane.showMessageDialog(null, "Game is Over");
+						return;
+					}
 					Player player = board.getTurnPlayer();
 					player.rollDice();
 				}
@@ -109,6 +118,10 @@ public class CludoFrame extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("End Turn")) {
+					if (board.isGameOver()){
+						JOptionPane.showMessageDialog(null, "Game is Over");
+						return;
+					}
 					if (board.hasStarted()) {
 						int option = JOptionPane
 								.showConfirmDialog(

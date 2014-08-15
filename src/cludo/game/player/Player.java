@@ -1,30 +1,17 @@
 package cludo.game.player;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cludo.Main;
 import cludo.game.cards.*;
 import cludo.game.guess.Suggestion;
-import cludo.util.Dice;
-import cludo.util.Location;
-import cludo.util.Move;
-import cludo.util.PathFinder;
+import cludo.util.*;
 
 public class Player implements MouseListener {
 
@@ -38,6 +25,7 @@ public class Player implements MouseListener {
 	private int currentMoveAmount = 0;
 	private boolean hasRolled;
 	private boolean isRefuting;
+	private boolean hasSuggested;
 
 	/**
 	 * Constructs the player saving the details that are passed in.
@@ -58,14 +46,25 @@ public class Player implements MouseListener {
 		this.dice = dice;
 	}
 
+	/**
+	 * Updates the amount left to move.
+	 * @param amountLeft
+	 */
 	public void updateMove(int amountLeft) {
 		currentMoveAmount = amountLeft;
 	}
-
+	
+	/**
+	 * used to get the players name
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Rolls the dice and stores the total in the current move.
+	 */
 	public void rollDice() {
 		if (!hasRolled) {
 			currentMoveAmount = dice.roll();
@@ -75,6 +74,11 @@ public class Player implements MouseListener {
 
 	}
 
+	/**
+	 * Use to get the players current hand.
+	 * hand is a is itrable
+	 * @return
+	 */
 	public Hand getHand() {
 		return hand;
 	}
@@ -201,20 +205,52 @@ public class Player implements MouseListener {
 		JOptionPane.showMessageDialog(null, panel, player.getName()+" refuted you with:", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	/**
+	 * Gets the move amount avalible to the player
+	 * @return
+	 */
 	public int getCurrentMove() {
 		return currentMoveAmount;
 	}
 
+	/**
+	 * Gets the protrat image of the character the player is playing
+	 * @return
+	 */
 	public BufferedImage getPortrait() {
 		return character.image;
 	}
 
+	/**
+	 * Tell the if the player is refuting or not.
+	 * @return
+	 */
 	public boolean isRefuting() {
 		return isRefuting;
 	}
 
+	/**
+	 * Set if the player is refuting or not.
+	 * @param isRefuting
+	 */
 	public void setRefuting(boolean isRefuting) {
 		this.isRefuting = isRefuting;
+	}
+	
+	/**
+	 * Used in the suggest implementation to stop a player form suggesting more than once per turn.
+	 * @return - if they have suggested this turn
+	 */
+	public boolean isHasSuggested() {
+		return hasSuggested;
+	}
+	
+	/**
+	 * Used to change the suggest boolean once the players turn is up or they have suggest something.
+	 * @param hasSuggested - the value that it is to be swapped to.
+	 */
+	public void setHasSuggested(boolean hasSuggested) {
+		this.hasSuggested = hasSuggested;
 	}
 
 	// =============MouseEventHandling=================//
