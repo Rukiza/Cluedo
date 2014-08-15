@@ -5,7 +5,7 @@ import java.util.*;
 import cludo.game.cards.Card;
 import cludo.game.cards.Hand;
 
-public class Suggestion {
+public class Suggestion implements Iterable<Card>{
 	
 	private Card murderRoom;
 	private Card murderWeapon;
@@ -31,5 +31,14 @@ public class Suggestion {
 			}
 		}
 		return cardsThatMatch;
+	}
+
+	@Override
+	public Iterator<Card> iterator() {
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(murderRoom);
+		temp.add(murderCharacter);
+		temp.add(murderWeapon);
+		return temp.iterator();
 	}
 }

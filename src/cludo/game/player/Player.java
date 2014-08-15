@@ -1,6 +1,11 @@
 package cludo.game.player;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -131,7 +136,7 @@ public class Player implements MouseListener {
 		}
 	}
 
-	public Card refute(Suggestion suggestion) {
+	public Card refute(Suggestion suggestion, Player player) {
 		List<Card> cardsCanRefuteWith = suggestion.refute(hand);
 		if (!cardsCanRefuteWith.isEmpty()) {
 			JPanel panel = new JPanel();
@@ -141,11 +146,26 @@ public class Player implements MouseListener {
 			}
 			panel.add(combo);
 			JOptionPane.showMessageDialog(null, panel,
-					"Please select something to refute with.",
+					player.getName()+" made a Suggestion please refute",
 					JOptionPane.NO_OPTION);
 			return (Card)combo.getSelectedItem();
 		}
+		showSuggestion(suggestion, player);
 		return null;
+	}
+	
+	public void showSuggestion(Suggestion suggestion, Player player) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		for (Card c: suggestion){
+			panel.add(new JLabel(c.toString()+" "));
+		}
+		JOptionPane.showMessageDialog(null, panel, player.getName()+" made a Suggestion", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void showRefute(Card c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public int getCurrentMove() {
@@ -180,5 +200,9 @@ public class Player implements MouseListener {
 
 	public void mousePressed(MouseEvent e) {
 	}
+
+
+
+
 
 }

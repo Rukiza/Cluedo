@@ -9,6 +9,7 @@ import java.util.*;
 import org.hamcrest.core.IsCollectionContaining;
 
 import cludo.game.Room;
+import cludo.game.cards.Card;
 import cludo.game.cards.Deck;
 import cludo.game.guess.Solution;
 import cludo.game.guess.Suggestion;
@@ -253,13 +254,24 @@ public class CludoBoard {
 	}
 	
 	public void handleSuggestion(Suggestion suggestion){
-		Player p = turn.poll();
-		turn.offer(p);
+		Player turnPlayer = turn.poll();
+		turn.offer(turnPlayer);
+		Card c = null;
+		Player p = null;
 		while (!turn.peek().isTurn()){
 			p = turn.poll();
-			p.refute(suggestion);
+			c = p.refute(suggestion, turnPlayer);
+			turn.offer(p);
+			if (c != null){
+				break;
+			}
+		}
+		while(!turn.peek().isTurn()){
+			p = turn.poll();
+			p.showSuggestion(suggestion, turnPlayer);
 			turn.offer(p);
 		}
+		turn.peek().showRefute(c);
 	}
 
 	public boolean isSquareEmpty(Location location) {
