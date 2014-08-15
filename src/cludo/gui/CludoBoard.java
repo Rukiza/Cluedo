@@ -116,6 +116,7 @@ public class CludoBoard {
 		rooms.add(new Room("Library", findDoors(library)));
 		rooms.add(new Room("Hall", findDoors(hall)));
 		rooms.add(new Room("Lounge", findDoors(lounge)));
+		rooms.add(new Room("BilliardRoom", findDoors(billiardRoom)));
 	}
 
 	/**
@@ -614,6 +615,20 @@ public class CludoBoard {
 		}
 		turn.peek().setTurn();
 		Main.canvas.repaint();
+	}
+	
+	//==================Door checking=====================//
+	public boolean isNorthDoor(Location location){
+		return getCharAtLocation(location) == northDoor;
+	}
+	public boolean isSouthDoor(Location location){
+		return getCharAtLocation(location) == southDoor;
+	}
+	public boolean isEastDoor(Location location){
+		return getCharAtLocation(location) == eastDoor;
+	}
+	public boolean isWestDoor(Location location){
+		return getCharAtLocation(location) == westDoor;
 	}
 
 }

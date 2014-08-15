@@ -54,6 +54,7 @@ public class Main {
 			final CludoCanvas canvas, final CludoBoard board, final Dice dice) {
 		final JDialog playerForm = new JDialog(frame, "Start Game");
 		final List<Player> playerList = new ArrayList<Player>();
+		playerForm.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		playerForm.setFocusable(true);
 		JPanel formContent = new JPanel();

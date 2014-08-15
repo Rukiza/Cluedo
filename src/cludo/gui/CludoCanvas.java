@@ -1,18 +1,10 @@
 package cludo.gui;
 
-import java.awt.Canvas;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
-import java.awt.Transparency;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.nio.DoubleBuffer;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -204,6 +196,32 @@ public class CludoCanvas extends JPanel {
 		g.fillRect(x * squareSize, y * squareSize, squareSize, squareSize);
 		g.setColor(doorOutline);
 		g.drawRect(x * squareSize, y * squareSize, squareSize, squareSize);
+		g.setColor(walls);
+		int distance = 24;
+		Location east = new Location(x + 1, y);
+		Location west = new Location(x - 1, y);
+		Location south = new Location(x, y + 1);
+		Location north = new Location(x, y - 1);
+		if (x < 24 && x > 0) {
+			if ((board.isFloor(east) || board.isOutterWall(east)) && !board.isWestDoor(new Location(x, y))) {
+				g.drawLine(squareSize * (x) + distance, squareSize * (y),
+						squareSize * (x) + distance, squareSize * (y + 1));
+			} else if ((board.isFloor(west) || board.isOutterWall(west) )&& !board.isEastDoor(new Location(x, y))) {
+				g.drawLine(squareSize * (x), squareSize * (y),
+						squareSize * (x), squareSize * (y + 1));
+			}
+		}
+		
+
+		if (y < 24 && y > 0) {
+			if ((board.isFloor(south) || board.isOutterWall(south)) && !board.isSouthDoor(new Location(x, y))) {
+				g.drawLine(squareSize * (x), squareSize * (y) + distance,
+						squareSize * (x + 1), squareSize * (y) + distance);
+			} else if ((board.isFloor(north) || board.isOutterWall(north))&& !board.isNorthDoor(new Location(x, y))) {
+				g.drawLine(squareSize * (x), squareSize * (y), squareSize
+						* (x + 1), squareSize * (y));
+			}
+		}
 	}
 
 	/**
