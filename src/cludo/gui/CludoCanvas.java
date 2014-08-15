@@ -29,7 +29,8 @@ public class CludoCanvas extends JPanel {
 	private Dice dice;
 	private BufferedImage image;
 	public static final int squareSize = 25;
-
+	public static boolean refuteDrawCase;
+	
 	public CludoCanvas(CludoBoard board, Dice dice) {
 		super();
 		this.setBackground(Color.black);
@@ -71,6 +72,9 @@ public class CludoCanvas extends JPanel {
 	// dice color
 	private final Color diceColor = Color.white;
 	private final Color diceFace = Color.black;
+	
+	// backgroundColor
+	private final Color backGroundColor = Color.lightGray;
 
 	// size of the dice.
 	public static final int cardWidth = 75;
@@ -88,7 +92,7 @@ public class CludoCanvas extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.lightGray);
+		g.setColor(backGroundColor);
 		g.fillRect(0, 0, 1000, 720);
 		for (int x = 0; x < board.getWidth(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
@@ -242,9 +246,15 @@ public class CludoCanvas extends JPanel {
 					}
 
 				}
-				if (p.isTurn()) {
+				if (p.isTurn() && !refuteDrawCase) {
 					// called only if it is the players turn.
 					drawPlayersHand(p, g);
+					drawPlayerPortrait(p, g);
+					drawPlayerMoveAmount(p, g);
+				}
+				if (refuteDrawCase && p.isRefuting()){
+					//drawPlayersHand(p, g);
+					drawCoveredHand(p, g);
 					drawPlayerPortrait(p, g);
 					drawPlayerMoveAmount(p, g);
 				}
@@ -259,6 +269,27 @@ public class CludoCanvas extends JPanel {
 			}
 		}
 
+	}
+
+	private void drawCoveredHand(Player player, Graphics g) {
+		g.setColor(getPlayerColor(player.getCharacterName()));
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 25));
+		g.drawString(player.getName() + "'s Hand", board.getWidth()
+				* squareSize + 20, 30);
+		Hand hand = player.getHand();
+		int i = 0;
+		int j = 0;
+		g.setColor(backGroundColor);
+		for (Card card : hand) {
+			g.fillRect(board.getWidth() * squareSize
+					+ CludoCanvas.cardWidth * i, CludoCanvas.cardHeight * j
+					+ 50, CludoCanvas.cardWidth, CludoCanvas.cardHeight);
+			i++;
+			if (i % 5 == 0) {
+				i = 0;
+				j++;
+			}
+		}
 	}
 
 	/**

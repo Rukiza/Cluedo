@@ -255,27 +255,36 @@ public class CludoBoard {
 	}
 	
 	public void handleSuggestion(Suggestion suggestion){
+		Main.canvas.refuteDrawCase = true;
 		Player turnPlayer = turn.poll();
 		turn.offer(turnPlayer);
 		Card c = null;
 		Player p = null;
 		Player refuteingPlayer = null;
 		while (!turn.peek().isTurn()){
-			//Main.canvas.repaint();
+			
 			p = turn.poll();
+			p.setRefuting(true);
+			Main.canvas.repaint();
 			c = p.refute(suggestion, turnPlayer);
 			turn.offer(p);
+			p.setRefuting(false);
 			if (c != null){
 				refuteingPlayer = p;
 				break;
 			}
 		}
 		while(!turn.peek().isTurn()){
+			p.setRefuting(true);
+			Main.canvas.repaint();
 			p = turn.poll();
 			p.showSuggestion(suggestion, turnPlayer);
 			turn.offer(p);
+			p.setRefuting(false);
 		}
 		turn.peek().showRefute(c, refuteingPlayer);
+		Main.canvas.refuteDrawCase = false;
+		Main.canvas.repaint();
 	}
 
 	public boolean isSquareEmpty(Location location) {

@@ -37,7 +37,7 @@ public class Player implements MouseListener {
 	public List<Location> currentPath;
 	private int currentMoveAmount = 0;
 	private boolean hasRolled;
-	private boolean isInRoom;
+	private boolean isRefuting;
 
 	/**
 	 * Constructs the player saving the details that are passed in.
@@ -147,6 +147,7 @@ public class Player implements MouseListener {
 	 */
 	public Card refute(Suggestion suggestion, Player player) {
 		// uses method from the suggestion class that checks the hand for avalible cards.
+		isRefuting = true;
 		List<Card> cardsCanRefuteWith = suggestion.refute(hand);
 		if (!cardsCanRefuteWith.isEmpty()) {
 			// constructs the displaye for the infomation.
@@ -160,11 +161,13 @@ public class Player implements MouseListener {
 					player.getName()+" made a Suggestion please refute",
 					JOptionPane.NO_OPTION);
 			// returns the card that the p[layer wishes to show the player who suggested.
+			isRefuting = false;
 			return (Card)combo.getSelectedItem();
 		}
 		// becasue the player couldent refute this call the showSuggestion method inside player
 		// that will handle this situation.
 		showSuggestion(suggestion, player);
+		isRefuting = false;
 		return null;
 	}
 	
@@ -182,6 +185,11 @@ public class Player implements MouseListener {
 		JOptionPane.showMessageDialog(null, panel, player.getName()+" made a Suggestion", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	/**
+	 * Shows the message for if the player that contains the the card used to refute with
+	 * @param card	- card that is being used to refute there suggestion
+	 * @param player - player that is refuting them.
+	 */
 	public void showRefute(Card card, Player player) {
 		if (player == null){
 			JOptionPane.showMessageDialog(null, "No players have refuted you", "Refute", JOptionPane.INFORMATION_MESSAGE);
@@ -192,13 +200,21 @@ public class Player implements MouseListener {
 		panel.add(new JLabel(card.toString()+" "));
 		JOptionPane.showMessageDialog(null, panel, player.getName()+" refuted you with:", JOptionPane.INFORMATION_MESSAGE);
 	}
-
+	
 	public int getCurrentMove() {
 		return currentMoveAmount;
 	}
 
 	public BufferedImage getPortrait() {
 		return character.image;
+	}
+
+	public boolean isRefuting() {
+		return isRefuting;
+	}
+
+	public void setRefuting(boolean isRefuting) {
+		this.isRefuting = isRefuting;
 	}
 
 	// =============MouseEventHandling=================//
@@ -226,8 +242,6 @@ public class Player implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 	}
 
-
-
-
+	
 
 }
