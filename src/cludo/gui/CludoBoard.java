@@ -8,6 +8,7 @@ import java.util.*;
 
 import org.hamcrest.core.IsCollectionContaining;
 
+import cludo.Main;
 import cludo.game.Room;
 import cludo.game.cards.Card;
 import cludo.game.cards.Deck;
@@ -258,11 +259,14 @@ public class CludoBoard {
 		turn.offer(turnPlayer);
 		Card c = null;
 		Player p = null;
+		Player refuteingPlayer = null;
 		while (!turn.peek().isTurn()){
+			//Main.canvas.repaint();
 			p = turn.poll();
 			c = p.refute(suggestion, turnPlayer);
 			turn.offer(p);
 			if (c != null){
+				refuteingPlayer = p;
 				break;
 			}
 		}
@@ -271,7 +275,7 @@ public class CludoBoard {
 			p.showSuggestion(suggestion, turnPlayer);
 			turn.offer(p);
 		}
-		turn.peek().showRefute(c);
+		turn.peek().showRefute(c, refuteingPlayer);
 	}
 
 	public boolean isSquareEmpty(Location location) {

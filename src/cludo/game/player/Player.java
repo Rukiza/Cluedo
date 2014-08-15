@@ -136,9 +136,20 @@ public class Player implements MouseListener {
 		}
 	}
 
+	/**
+	 * Player can refute a suggestion that is made by another player
+	 * Supply the interface for this.
+	 * if for some reson the player cant refute then the it will call the 
+	 * show suggestion method.
+	 * @param suggestion - suggestion that the player whos turn it is has made.
+	 * @param player - player that made the suggestion
+	 * @return returns the card that is used to refute or null if can't;
+	 */
 	public Card refute(Suggestion suggestion, Player player) {
+		// uses method from the suggestion class that checks the hand for avalible cards.
 		List<Card> cardsCanRefuteWith = suggestion.refute(hand);
 		if (!cardsCanRefuteWith.isEmpty()) {
+			// constructs the displaye for the infomation.
 			JPanel panel = new JPanel();
 			JComboBox<Card> combo = new JComboBox<Card>();
 			for (Card c : cardsCanRefuteWith) {
@@ -148,12 +159,20 @@ public class Player implements MouseListener {
 			JOptionPane.showMessageDialog(null, panel,
 					player.getName()+" made a Suggestion please refute",
 					JOptionPane.NO_OPTION);
+			// returns the card that the p[layer wishes to show the player who suggested.
 			return (Card)combo.getSelectedItem();
 		}
+		// becasue the player couldent refute this call the showSuggestion method inside player
+		// that will handle this situation.
 		showSuggestion(suggestion, player);
 		return null;
 	}
 	
+	/**
+	 * Used inplace of the refute menu just displase the cards that the player suggested
+	 * @param suggestion - cards that where suggested
+	 * @param player - player that suggested them.
+	 */
 	public void showSuggestion(Suggestion suggestion, Player player) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
@@ -163,9 +182,15 @@ public class Player implements MouseListener {
 		JOptionPane.showMessageDialog(null, panel, player.getName()+" made a Suggestion", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	public void showRefute(Card c) {
-		// TODO Auto-generated method stub
-		
+	public void showRefute(Card card, Player player) {
+		if (player == null){
+			JOptionPane.showMessageDialog(null, "No players have refuted you", "Refute", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		panel.add(new JLabel(card.toString()+" "));
+		JOptionPane.showMessageDialog(null, panel, player.getName()+" refuted you with:", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public int getCurrentMove() {
