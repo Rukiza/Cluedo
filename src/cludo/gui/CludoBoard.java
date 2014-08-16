@@ -617,6 +617,28 @@ public class CludoBoard {
 		Main.canvas.repaint();
 	}
 	
+	/**
+	 * used for checking if a location is the first secret passage
+	 * @param location -  location to be checked
+	 * @return - true if it is false otherwise.
+	 */
+	public boolean isSecretPassageOne(Location location){
+		return secretPassageOne == getCharAtLocation(location);
+	}
+	
+	/**
+	 * Used for checking if a location is the second secred passage.
+	 * @param location - location to be checked
+	 * @return - true if is false otherwise.
+	 */
+	public boolean isSecretPassageTwo(Location location){
+		return secretPassageTwo == getCharAtLocation(location);
+	}
+	
+	public boolean isSecretPassage(Location location){
+		return isSecretPassageOne(location) || isSecretPassageTwo(location);
+	}
+	
 	//==================Door checking=====================//
 	public boolean isNorthDoor(Location location){
 		return getCharAtLocation(location) == northDoor;

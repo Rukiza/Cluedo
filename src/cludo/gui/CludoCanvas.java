@@ -1,6 +1,5 @@
 package cludo.gui;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -22,7 +21,7 @@ public class CludoCanvas extends JPanel {
 	private BufferedImage image;
 	public static final int squareSize = 25;
 	public static boolean refuteDrawCase;
-	
+
 	public CludoCanvas(CludoBoard board, Dice dice) {
 		super();
 		this.setBackground(Color.black);
@@ -45,6 +44,11 @@ public class CludoCanvas extends JPanel {
 	private final Color professorPlum = new Color(75, 0, 130);
 	private final Color reverendGreen = new Color(154, 205, 50);
 
+	// Colors for secret passages.
+	private final Color secret1 = new Color(255, 99, 71);
+	private final Color secret2 = new Color(255, 160, 122);
+	private final Color arrowColor = new Color(128, 128, 0);
+
 	// RoomColors
 	private final Color room = new Color(143, 188, 143);
 	private final Color walls = new Color(139, 69, 19);
@@ -64,7 +68,7 @@ public class CludoCanvas extends JPanel {
 	// dice color
 	private final Color diceColor = Color.white;
 	private final Color diceFace = Color.black;
-	
+
 	// backgroundColor
 	private final Color backGroundColor = Color.lightGray;
 
@@ -77,10 +81,11 @@ public class CludoCanvas extends JPanel {
 	private final int dicePositionY = 16 * squareSize;
 	private final int diceSize = 3 * squareSize;
 	private final int diceNumberSize = 10; // devisable by 2
-	
+
 	// movment text
-	private final int movementTextPositionX = dicePositionX+10;
-	private final int movementTextPositionY = 2*diceSize + dicePositionY + 30+20;
+	private final int movementTextPositionX = dicePositionX + 10;
+	private final int movementTextPositionY = 2 * diceSize + dicePositionY + 30
+			+ 20;
 
 	@Override
 	public void paint(Graphics g) {
@@ -105,6 +110,9 @@ public class CludoCanvas extends JPanel {
 				} else if (board.isSpawn(location)) {
 					// call to a method that draws the spawn tiles.
 					drawSpawn(x, y, g);
+				} else if (board.isSecretPassage(location)) {
+					// calls the method that draws the secret passage ways.
+					drawSecretPassage(location, g);
 				}
 				// calls draw player makes other calls to player only draws.
 				drawPlayers(g);
@@ -203,21 +211,24 @@ public class CludoCanvas extends JPanel {
 		Location south = new Location(x, y + 1);
 		Location north = new Location(x, y - 1);
 		if (x < 24 && x > 0) {
-			if ((board.isFloor(east) || board.isOutterWall(east)) && !board.isWestDoor(new Location(x, y))) {
+			if ((board.isFloor(east) || board.isOutterWall(east))
+					&& !board.isWestDoor(new Location(x, y))) {
 				g.drawLine(squareSize * (x) + distance, squareSize * (y),
 						squareSize * (x) + distance, squareSize * (y + 1));
-			} else if ((board.isFloor(west) || board.isOutterWall(west) )&& !board.isEastDoor(new Location(x, y))) {
+			} else if ((board.isFloor(west) || board.isOutterWall(west))
+					&& !board.isEastDoor(new Location(x, y))) {
 				g.drawLine(squareSize * (x), squareSize * (y),
 						squareSize * (x), squareSize * (y + 1));
 			}
 		}
-		
 
 		if (y < 24 && y > 0) {
-			if ((board.isFloor(south) || board.isOutterWall(south)) && !board.isSouthDoor(new Location(x, y))) {
+			if ((board.isFloor(south) || board.isOutterWall(south))
+					&& !board.isSouthDoor(new Location(x, y))) {
 				g.drawLine(squareSize * (x), squareSize * (y) + distance,
 						squareSize * (x + 1), squareSize * (y) + distance);
-			} else if ((board.isFloor(north) || board.isOutterWall(north))&& !board.isNorthDoor(new Location(x, y))) {
+			} else if ((board.isFloor(north) || board.isOutterWall(north))
+					&& !board.isNorthDoor(new Location(x, y))) {
 				g.drawLine(squareSize * (x), squareSize * (y), squareSize
 						* (x + 1), squareSize * (y));
 			}
@@ -270,8 +281,8 @@ public class CludoCanvas extends JPanel {
 					drawPlayerPortrait(p, g);
 					drawPlayerMoveAmount(p, g);
 				}
-				if (refuteDrawCase && p.isRefuting()){
-					//drawPlayersHand(p, g);
+				if (refuteDrawCase && p.isRefuting()) {
+					// drawPlayersHand(p, g);
 					drawCoveredHand(p, g);
 					drawPlayerPortrait(p, g);
 					drawPlayerMoveAmount(p, g);
@@ -299,9 +310,9 @@ public class CludoCanvas extends JPanel {
 		int j = 0;
 		g.setColor(backGroundColor);
 		for (Card card : hand) {
-			g.fillRect(board.getWidth() * squareSize
-					+ CludoCanvas.cardWidth * i, CludoCanvas.cardHeight * j
-					+ 50, CludoCanvas.cardWidth, CludoCanvas.cardHeight);
+			g.fillRect(board.getWidth() * squareSize + CludoCanvas.cardWidth
+					* i, CludoCanvas.cardHeight * j + 50,
+					CludoCanvas.cardWidth, CludoCanvas.cardHeight);
 			i++;
 			if (i % 5 == 0) {
 				i = 0;
@@ -366,7 +377,8 @@ public class CludoCanvas extends JPanel {
 	private void drawPlayerMoveAmount(Player player, Graphics g) {
 		int currentMove = player.getCurrentMove();
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
-		g.drawString("Movement Left: "+ currentMove, movementTextPositionX, movementTextPositionY);
+		g.drawString("Movement Left: " + currentMove, movementTextPositionX,
+				movementTextPositionY);
 	}
 
 	private void drawDice(Graphics g) {
@@ -437,6 +449,82 @@ public class CludoCanvas extends JPanel {
 				- diceNumberSize / 2, diceNumberSize, diceNumberSize);
 		g.fillOval(x + diceSize / 2 - diceNumberSize / 2, y + (diceSize / 4)
 				* 3 - diceNumberSize / 2, diceNumberSize, diceNumberSize);
+	}
+
+	/**
+	 * Handles drawing of secret passages.
+	 * @param location - that the secret passage may be drawn
+	 * @param g -  the place the secret passage will be drawn if the place is a secret passage.
+	 */
+	private void drawSecretPassage(Location location, Graphics g) {
+		if (board.isSecretPassageOne(location)) {
+			drawSecretPassageOne(location, g);
+		} else {
+			drawSecretPassageTwo(location, g);
+		}
+
+		g.setColor(arrowColor);
+
+		if (location.x > (board.getWidth() / 2)) {
+			if (location.y > (board.getHeight() / 2)) {
+				g.drawLine(location.x * squareSize + 3, location.y * squareSize
+						+ 3, location.x * squareSize + 20, location.y
+						* squareSize + 20);
+				g.drawLine(location.x * squareSize + 3, location.y * squareSize
+						+ 3, location.x * squareSize + 20, location.y
+						* squareSize + 3);
+				g.drawLine(location.x * squareSize + 3, location.y * squareSize
+						+ 3, location.x * squareSize + 3, location.y
+						* squareSize + 20);
+			} else {
+				g.drawLine(location.x * squareSize + 3, location.y * squareSize
+						+ squareSize - 3, location.x * squareSize + 20,
+						location.y * squareSize + squareSize - 20);
+				g.drawLine(location.x * squareSize + 3, location.y * squareSize
+						+ squareSize - 3, location.x * squareSize + 20,
+						location.y * squareSize + squareSize - 3);
+				g.drawLine(location.x * squareSize + 3, location.y * squareSize
+						+ squareSize - 3, location.x * squareSize + 3,
+						location.y * squareSize + squareSize - 20);
+			}
+		} else {
+			if (location.y > (board.getHeight() / 2)) {
+				g.drawLine(location.x * squareSize + squareSize - 3, location.y
+						* squareSize + 3, location.x * squareSize + squareSize
+						- 20, location.y * squareSize + 20);
+				g.drawLine(location.x * squareSize + squareSize - 3, location.y
+						* squareSize + 3, location.x * squareSize + squareSize
+						- 20, location.y * squareSize + 3);
+				g.drawLine(location.x * squareSize + squareSize - 3, location.y
+						* squareSize + 3, location.x * squareSize + squareSize
+						- 3, location.y * squareSize + 20);
+			} else {
+				g.drawLine(location.x * squareSize + squareSize - 3, location.y
+						* squareSize + squareSize - 3, location.x * squareSize
+						+ squareSize - 20, location.y * squareSize + squareSize
+						- 20);
+				g.drawLine(location.x * squareSize + squareSize - 3, location.y
+						* squareSize + squareSize - 3, location.x * squareSize
+						+ squareSize - 20, location.y * squareSize + squareSize
+						- 3);
+				g.drawLine(location.x * squareSize + squareSize - 3, location.y
+						* squareSize + squareSize - 3, location.x * squareSize
+						+ squareSize - 3, location.y * squareSize + squareSize
+						- 20);
+			}
+		}
+	}
+
+	private void drawSecretPassageTwo(Location location, Graphics g) {
+		g.setColor(secret2);
+		g.fillRect(location.x * squareSize, location.y * squareSize,
+				squareSize, squareSize);
+	}
+
+	private void drawSecretPassageOne(Location location, Graphics g) {
+		g.setColor(secret1);
+		g.fillRect(location.x * squareSize, location.y * squareSize,
+				squareSize, squareSize);
 	}
 
 	/**
