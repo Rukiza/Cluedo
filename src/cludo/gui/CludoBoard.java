@@ -103,6 +103,20 @@ public class CludoBoard {
 		hasStarted = true;
 		return true;
 	}
+	
+	/**
+	 * Handles the restarting of the program.
+	 * @param frame
+	 * @param canvas
+	 */
+	public void restart(CludoFrame frame, CludoCanvas canvas) {
+		hasStarted = false;
+		rooms = new ArrayList<Room>();
+		deck = new Deck();
+		Main.playerCreation(frame, canvas, this, CludoCanvas.dice);
+		
+	}
+
 
 	/**
 	 * Sets up the rooms
@@ -683,5 +697,6 @@ public class CludoBoard {
 	public boolean isWestDoor(Location location){
 		return getCharAtLocation(location) == westDoor;
 	}
+
 
 }

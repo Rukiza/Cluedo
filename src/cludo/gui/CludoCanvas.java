@@ -17,7 +17,7 @@ import cludo.util.Location;
 public class CludoCanvas extends JPanel {
 
 	private CludoBoard board;
-	private Dice dice;
+	public static Dice dice;
 	private BufferedImage image;
 	public static final int squareSize = 25;
 	public static boolean refuteDrawCase;

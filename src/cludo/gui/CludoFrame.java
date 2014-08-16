@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -39,7 +40,7 @@ public class CludoFrame extends JFrame implements WindowListener {
 	 * @param canvas
 	 *            - the place that the game will be drawn.
 	 */
-	public CludoFrame(String title, CludoCanvas canvas, CludoBoard board) {
+	public CludoFrame(String title, final CludoCanvas canvas, final CludoBoard board) {
 		super(title);
 
 		this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
@@ -47,7 +48,18 @@ public class CludoFrame extends JFrame implements WindowListener {
 		setLayout(new BorderLayout());
 		JMenuBar bar = new JMenuBar();
 		add(bar, BorderLayout.NORTH);
-		bar.add(new JMenu("LOL"));
+		JMenu menu = new JMenu("Game");
+		JMenuItem item = new JMenuItem("Restart");
+		item.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				board.restart(CludoFrame.this, canvas);
+				
+			}
+		});
+		menu.add(item);
+		bar.add(menu);
 
 		JToolBar eventBar = new JToolBar();
 		add(eventBar, BorderLayout.SOUTH);
