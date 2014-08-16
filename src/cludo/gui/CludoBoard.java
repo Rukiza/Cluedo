@@ -433,9 +433,9 @@ public class CludoBoard {
 	 *         the room depending.
 	 */
 	public boolean moveToAndFromRooms(Location location) {
-		if (isDoor(location)) {
+		if (isDoor(location) || isSecretPassage(location)) {
 			for (Room r : rooms) {
-				if (r.checkDoor(location)) {
+				if (r.checkDoor(location) || matchSecret(location, r)) {
 					if (r.hasPlayer(getTurnPlayer())) {
 						r.playerLeavesRoom(getTurnPlayer());
 						return true;
@@ -446,6 +446,19 @@ public class CludoBoard {
 				}
 			}
 		}
+		return false;
+	}
+	
+	private boolean matchSecret(Location location, Room room ){
+		Location north = new Location(location.x, location.y-1);
+		Location south = new Location(location.x, location.y+1);
+		Location east = new Location(location.x+1, location.y);
+		Location west = new Location(location.x-1, location.y);
+		char peice = room.getRoomType();
+		if (getCharAtLocation(north) == peice) return true;
+		if (getCharAtLocation(south) == peice) return true;
+		if (getCharAtLocation(east) == peice) return true;
+		if (getCharAtLocation(west) == peice) return true;
 		return false;
 	}
 
@@ -608,7 +621,7 @@ public class CludoBoard {
 			gameOver = true;
 		}
 		JOptionPane.showMessageDialog(null, "You Lose and have can't play");
-		turn.poll();
+		turn.poll().setTurn();;
 		if (turn.isEmpty()) {
 			gameOver = true;
 			return;
@@ -639,8 +652,21 @@ public class CludoBoard {
 		return isSecretPassageOne(location) || isSecretPassageTwo(location);
 	}
 	
-	public Location findOtherSecret(Location newLocation) {
-		// TODO Auto-generated method stub
+	/**
+	 * Gets the other secret passage way
+	 * @param location - location to be looked at must be a secret passage.
+	 * @return return the location of the other secret passage there should always be 2.
+	 */
+	public Location findOtherSecret(Location location) {
+		char place = getCharAtLocation(location);
+		for (int i = 0; i < getWidth(); i++){
+			for (int j = 0; j < getHeight(); j++){
+				Location l = new Location(i,j);
+				if (!location.equals(l) && place == getCharAtLocation(l)){
+					return l;
+				}
+			}
+		}
 		return null;
 	}
 	

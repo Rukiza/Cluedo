@@ -34,7 +34,11 @@ public class Move {
 				board.moveToAndFromRooms(newLocation);
 				return true;
 			}else if(board.isSecretPassage(newLocation) && (player.getCurrentMove() != 0 || !player.hasRolled())){
-				player.setLocation(board.findOtherSecret(newLocation));
+				board.moveToAndFromRooms(newLocation);
+				Location otherSecret = board.findOtherSecret(newLocation);
+				player.setLocation(otherSecret);
+				board.moveToAndFromRooms(otherSecret);
+				player.updateMove(0);
 				// error in handling of move;
 				return false;
 			}
