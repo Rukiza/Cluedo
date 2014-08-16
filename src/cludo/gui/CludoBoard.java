@@ -111,6 +111,7 @@ public class CludoBoard {
 	 */
 	public void restart(CludoFrame frame, CludoCanvas canvas) {
 		hasStarted = false;
+		gameOver = false;
 		rooms = new ArrayList<Room>();
 		deck = new Deck();
 		Main.playerCreation(frame, canvas, this, CludoCanvas.dice);

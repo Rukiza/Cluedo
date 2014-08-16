@@ -115,10 +115,10 @@ public class CludoCanvas extends JPanel {
 					drawSecretPassage(location, g);
 				}
 				// calls draw player makes other calls to player only draws.
-				drawPlayers(g);
-				drawDice(g);
 			}
 		}
+		drawPlayers(g);
+		drawDice(g);
 		g.dispose();
 		// bufferStrat.show();
 	}

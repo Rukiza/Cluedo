@@ -39,15 +39,23 @@ public class BoardTests {
 				if (board.isDoor(new Location(0, 0))){
 				}else if (board.isRoom(new Location(x, y))){
 				}else {
-					fail("The board is filled with doors");
+					fail("The board is filled with doors and rooms");
 				}
 			}
 		}
 	}
 	
 	
+	@Test
+	public void roomTest2(){
+		
+	}
+	
+	
 	private CludoBoard makeBoard(String fileName){
 		return new CludoBoard(new File(fileName));
 	}
+	
+	
 
 }

@@ -23,6 +23,9 @@ public class Move {
 	 * @return - returns true if the player can move to this point, false otherwise.
 	 */
 	public static boolean makeMove(Location oldLocation, Location newLocation, Player player){
+		if (newLocation.y > board.getHeight() || newLocation.x > board.getWidth()){
+			return false;
+		}
 		int playerMoves = player.getCurrentMove();
 		List<Location> playersAttemptedMove = player.currentPath;
 		if(board.isInRoom(player)){
