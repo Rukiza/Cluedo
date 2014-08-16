@@ -635,6 +635,7 @@ public class CludoBoard {
 		if (solution.checkAccuse(accuse)) {
 			JOptionPane.showMessageDialog(null, "You Win!!");
 			gameOver = true;
+			return;
 		}
 		JOptionPane.showMessageDialog(null, "You Lose and have can't play");
 		turn.poll().setTurn();;
