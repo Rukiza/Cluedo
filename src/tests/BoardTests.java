@@ -53,7 +53,41 @@ public class BoardTests {
 	
 	@Test
 	public void roomTest2(){
-		
+		CludoBoard board = makeBoard("CludoGameBoard");
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
+		board.startGame(playerList);
+		for (Player player: playerList){
+			if(board.isInRoom(player)){
+				fail("No player should start out in a room.");
+			}
+		}
+	}
+	
+	@Test
+	public void roomTest3(){
+		CludoBoard board = makeBoard("CludoGameBoard");
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
+		board.startGame(playerList);
+		int i = 0;
+		for (int x = 0; x < board.getWidth(); x++){
+			for (int y = 0; y<board.getHeight(); y++){
+				Location l = new Location(x, y);
+				if (board.isDoor(l)){
+					playerList.get(i).setLocation(l);
+					playerList.get(i).setTurn();
+					board.moveToAndFromRooms(l);
+					playerList.get(i).setTurn();
+					i++;
+				}
+				if(i >= playerList.size()) break;
+			}
+			if (i >= playerList.size())break;
+		}
+		for (Player player: playerList){
+			if(!board.isInRoom(player)){
+				fail("All Players hsould be in rooms");
+			}
+		}
 	}
 	
 	

@@ -182,6 +182,7 @@ public class CludoBoard {
 	 */
 	private void setSolution() {
 		solution = new Solution(deck);
+		System.out.println(solution);
 	}
 
 	/**

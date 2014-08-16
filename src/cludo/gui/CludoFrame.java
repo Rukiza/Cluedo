@@ -200,13 +200,15 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Card roomChosen = currentRoom.getCard();
-				Card charactersChosen = (Card) character.getSelectedItem();
-				Card weaponChosen = (Card) weapon.getSelectedItem();
-				Suggestion sug = new Suggestion(roomChosen, weaponChosen,
-						charactersChosen);
-				pane.dispose();
-				board.handleSuggestion(sug);
+				if (e.getActionCommand().equals("Suggestion")) {
+					Card roomChosen = currentRoom.getCard();
+					Card charactersChosen = (Card) character.getSelectedItem();
+					Card weaponChosen = (Card) weapon.getSelectedItem();
+					Suggestion sug = new Suggestion(roomChosen, weaponChosen,
+							charactersChosen);
+					pane.dispose();
+					board.handleSuggestion(sug);
+				}
 			}
 		});
 
@@ -246,8 +248,8 @@ public class CludoFrame extends JFrame implements WindowListener {
 				Card roomChosen = (Card) rooms.getSelectedItem();
 				Card charactersChosen = (Card) characters.getSelectedItem();
 				Card weaponChosen = (Card) weapons.getSelectedItem();
-				Accuse accuse = new Accuse(roomChosen, weaponChosen,
-						charactersChosen);
+				Accuse accuse = new Accuse(roomChosen, charactersChosen,
+						weaponChosen);
 				pane.dispose();
 				board.handleAccuse(accuse);
 			}

@@ -41,6 +41,12 @@ public class Solution {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Solution [murderRoom=" + murderRoom + ", murderCharacter="
+				+ murderCharacter + ", murderWeapon=" + murderWeapon + "]";
+	}
+
 	/**
 	 * Checks if an accusation matches the solution
 	 * Requires accuse not to equal null;
