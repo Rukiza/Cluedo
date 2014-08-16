@@ -252,6 +252,22 @@ public class Player implements MouseListener {
 	public void setHasSuggested(boolean hasSuggested) {
 		this.hasSuggested = hasSuggested;
 	}
+	
+	/**
+	 * returns if the player has rolled or not
+	 * @return
+	 */
+	public boolean hasRolled(){
+		return true;
+	}
+	
+	/**
+	 * setting for the location avoid using except for secret passages.
+	 * @param location
+	 */
+	public void setLocation(Location location){
+		this.location = location;
+	}
 
 	// =============MouseEventHandling=================//
 	@Override

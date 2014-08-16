@@ -639,6 +639,11 @@ public class CludoBoard {
 		return isSecretPassageOne(location) || isSecretPassageTwo(location);
 	}
 	
+	public Location findOtherSecret(Location newLocation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	//==================Door checking=====================//
 	public boolean isNorthDoor(Location location){
 		return getCharAtLocation(location) == northDoor;

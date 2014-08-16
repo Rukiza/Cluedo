@@ -529,7 +529,6 @@ public class CludoCanvas extends JPanel {
 
 	/**
 	 * Sets the players and adds them to the MouseListners
-	 * 
 	 * @param playerList
 	 */
 	public void setPlayers(List<Player> playerList) {

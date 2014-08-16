@@ -33,6 +33,10 @@ public class Move {
 			else if(playersRoom.checkDoor(newLocation)){
 				board.moveToAndFromRooms(newLocation);
 				return true;
+			}else if(board.isSecretPassage(newLocation) && (player.getCurrentMove() != 0 || !player.hasRolled())){
+				player.setLocation(board.findOtherSecret(newLocation));
+				// error in handling of move;
+				return false;
 			}
 		}
 		else{
