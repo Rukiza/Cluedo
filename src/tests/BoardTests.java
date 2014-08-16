@@ -3,10 +3,15 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
+import cludo.game.player.*;
+import cludo.game.player.Character;
 import cludo.gui.CludoBoard;
+import cludo.util.Dice;
 import cludo.util.Location;
 
 public class BoardTests {
@@ -56,6 +61,39 @@ public class BoardTests {
 		return new CludoBoard(new File(fileName));
 	}
 	
+	private List<Player> makePlayerList(List<String> playerNames, List<String> characterNames, CludoBoard board){
+		List<Player> playerList = new ArrayList<Player>();
+		for (int i = 0; i < playerNames.size() && i <characterNames.size(); i++){
+			playerList.add(new Player(playerNames.get(i), new Character(characterNames.get(i)), board.findSpawn(characterNames.get(i)), new Dice()));
+		}
+		return playerList;
+	}
 	
+	private List<String> getPlayerNameList(){
+		List<String> arrayListOfNames = new ArrayList<String>();
+		String[] names = new String[]{"Jim" , "Tim", "Lim", "Sim", "Fim"};
+		for (String n: names){
+			arrayListOfNames.add(n);
+		}
+		return arrayListOfNames;
+	}
+	
+	private List<String> getCharacterNameList(){
+		List<String> arrayListOfNames = new ArrayList<String>();
+		String[] names = new String[]{"Miss Scarlet" , "Professor Plum", "Reverand Green", "Mrs White", "Colonel Mustard"};
+		for (String n: names){
+			arrayListOfNames.add(n);
+		}
+		return arrayListOfNames;
+	}
+	
+	private List<String> getBadCharacterNameList(){
+		List<String> arrayListOfNames = new ArrayList<String>();
+		String[] names = new String[]{"jim" , "tim", "cat", "legs", "happyCamper"};
+		for (String n: names){
+			arrayListOfNames.add(n);
+		}
+		return arrayListOfNames;
+	}
 
 }
