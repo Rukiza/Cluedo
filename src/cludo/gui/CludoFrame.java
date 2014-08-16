@@ -40,7 +40,8 @@ public class CludoFrame extends JFrame implements WindowListener {
 	 * @param canvas
 	 *            - the place that the game will be drawn.
 	 */
-	public CludoFrame(String title, final CludoCanvas canvas, final CludoBoard board) {
+	public CludoFrame(String title, final CludoCanvas canvas,
+			final CludoBoard board) {
 		super(title);
 
 		this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
@@ -51,11 +52,11 @@ public class CludoFrame extends JFrame implements WindowListener {
 		JMenu menu = new JMenu("Game");
 		JMenuItem item = new JMenuItem("Restart");
 		item.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				board.restart(CludoFrame.this, canvas);
-				
+
 			}
 		});
 		menu.add(item);
@@ -79,16 +80,20 @@ public class CludoFrame extends JFrame implements WindowListener {
 		JButton button = new JButton("Accuse");
 		eventBar.add(button);
 		button.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.getActionCommand().equals("Accuse")){
+				if (e.getActionCommand().equals("Accuse")) {
+					if (board.isGameOver()) {
+						JOptionPane.showMessageDialog(null, "Game is Over");
+						return;
+					}
 					accuse();
 				}
-				
+
 			}
 		});
-		
+
 		button = new JButton("Suggest");
 		eventBar.add(button);
 		button.addActionListener(new ActionListener() {
@@ -96,7 +101,7 @@ public class CludoFrame extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("Suggest")) {
-					if (board.isGameOver()){
+					if (board.isGameOver()) {
 						JOptionPane.showMessageDialog(null, "Game is Over");
 						return;
 					}
@@ -111,9 +116,14 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (e.getActionCommand().equals("Roll Dice")) {
-					if (board.isGameOver()){
+					if (!board.hasStarted()) {
+						JOptionPane.showMessageDialog(null,
+								"Wait for the game to start");
+						return;
+					}
+					if (board.isGameOver()) {
 						JOptionPane.showMessageDialog(null, "Game is Over");
 						return;
 					}
@@ -130,7 +140,12 @@ public class CludoFrame extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("End Turn")) {
-					if (board.isGameOver()){
+					if (!board.hasStarted()) {
+						JOptionPane.showMessageDialog(null,
+								"Wait for the game to start");
+						return;
+					}
+					if (board.isGameOver()) {
 						JOptionPane.showMessageDialog(null, "Game is Over");
 						return;
 					}
@@ -158,9 +173,8 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		if (!board.hasStarted()){
-			JOptionPane.showMessageDialog(null,
-					"Wait for the game to start");
+		if (!board.hasStarted()) {
+			JOptionPane.showMessageDialog(null, "Wait for the game to start");
 			return;
 		}
 		final Room currentRoom = board.getRoomPlayerIsIn(board.getTurnPlayer());
@@ -177,81 +191,77 @@ public class CludoFrame extends JFrame implements WindowListener {
 		panel.add(character);
 
 		final JComboBox<Card> weapon = getWeapons();
-		
+
 		panel.add(weapon);
-		
 
 		JButton button = new JButton("Suggestion");
 		panel.add(button);
 		button.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Card roomChosen = currentRoom.getCard();
-				Card charactersChosen = (Card)character.getSelectedItem();
-				Card weaponChosen = (Card)weapon.getSelectedItem();
-				Suggestion sug = new Suggestion(roomChosen, weaponChosen, charactersChosen);
+				Card charactersChosen = (Card) character.getSelectedItem();
+				Card weaponChosen = (Card) weapon.getSelectedItem();
+				Suggestion sug = new Suggestion(roomChosen, weaponChosen,
+						charactersChosen);
 				pane.dispose();
 				board.handleSuggestion(sug);
 			}
 		});
-		
-		
+
 		pane.setLocationRelativeTo(null);
 		pane.add(panel);
 		pane.pack();
-		
+
 		pane.setVisible(true);
-		
+
 	}
-	
-	private static void accuse(){
+
+	private static void accuse() {
 		final JDialog pane = new JDialog();
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		if (!board.hasStarted()){
-			JOptionPane.showMessageDialog(null,
-					"Wait for the game to start");
+		if (!board.hasStarted()) {
+			JOptionPane.showMessageDialog(null, "Wait for the game to start");
 			return;
 		}
 		final JComboBox<Card> rooms = getRooms();
 		final JComboBox<Card> weapons = getWeapons();
 		final JComboBox<Card> characters = getCharacters();
-		
+
 		panel.add(rooms);
 
-
 		panel.add(characters);
-		
+
 		panel.add(weapons);
-		
 
 		JButton button = new JButton("Suggestion");
 		panel.add(button);
 		button.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Card roomChosen = (Card)rooms.getSelectedItem();
-				Card charactersChosen = (Card)characters.getSelectedItem();
-				Card weaponChosen = (Card)weapons.getSelectedItem();
-				Accuse accuse = new Accuse(roomChosen, weaponChosen, charactersChosen);
+				Card roomChosen = (Card) rooms.getSelectedItem();
+				Card charactersChosen = (Card) characters.getSelectedItem();
+				Card weaponChosen = (Card) weapons.getSelectedItem();
+				Accuse accuse = new Accuse(roomChosen, weaponChosen,
+						charactersChosen);
 				pane.dispose();
 				board.handleAccuse(accuse);
 			}
 		});
-		
-		
+
 		pane.setLocationRelativeTo(null);
 		pane.add(panel);
 		pane.pack();
-		
+
 		pane.setVisible(true);
-		
+
 	}
-	
-	private static JComboBox<Card> getWeapons(){
+
+	private static JComboBox<Card> getWeapons() {
 		JComboBox<Card> weapon = new JComboBox<Card>();
 		weapon.addItem(new Card(Card.Type.WEAPON, "Spanner"));
 		weapon.addItem(new Card(Card.Type.WEAPON, "Dagger"));
@@ -261,8 +271,8 @@ public class CludoFrame extends JFrame implements WindowListener {
 		weapon.addItem(new Card(Card.Type.WEAPON, "Leadpipe"));
 		return weapon;
 	}
-	
-	private static JComboBox<Card> getRooms(){
+
+	private static JComboBox<Card> getRooms() {
 		JComboBox<Card> room = new JComboBox<Card>();
 		room.addItem(new Card(Card.Type.ROOM, "Kitchen"));
 		room.addItem(new Card(Card.Type.ROOM, "Ballroom"));
@@ -275,8 +285,8 @@ public class CludoFrame extends JFrame implements WindowListener {
 		room.addItem(new Card(Card.Type.ROOM, "DiningRoom"));
 		return room;
 	}
-	
-	private static JComboBox<Card> getCharacters(){
+
+	private static JComboBox<Card> getCharacters() {
 		JComboBox<Card> character = new JComboBox<Card>();
 		character.addItem(new Card(Card.Type.CHARACTER, "MissScarlett"));
 		character.addItem(new Card(Card.Type.CHARACTER, "MrsWhite"));
@@ -286,7 +296,7 @@ public class CludoFrame extends JFrame implements WindowListener {
 		character.addItem(new Card(Card.Type.CHARACTER, "ProfessorPlum"));
 		return character;
 	}
-	
+
 	public void windowClosing(WindowEvent e) {
 		int option = JOptionPane.showConfirmDialog(CludoFrame.this, new JLabel(
 				"Exiting Cluedo"), "Confirm Exit", JOptionPane.YES_NO_OPTION,
