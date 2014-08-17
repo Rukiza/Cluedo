@@ -19,12 +19,19 @@ public class BoardTests {
 	private String filePath = "TestBoards/";
 
 	@Test
+	/**
+	 * The first square is a door so it should not fail.
+	 * Checks the first quare is a door.
+	 */
 	public void doorTest1() {
 		CludoBoard board = makeBoard(filePath+"doorTest.txt");
 		assertTrue(board.isDoor(new Location(0, 0)));
 	}
 	
 	@Test
+	/**
+	 * Tests to see that there are doors on every square of the map when there is
+	 */
 	public void doorTest2()	{
 		CludoBoard board = makeBoard(filePath+"doorTest.txt");
 		for (int x = 0; x < board.getWidth(); x++){
@@ -37,6 +44,9 @@ public class BoardTests {
 	}
 	
 	@Test
+	/**
+	 * Tests that the board has rooms on it when it does
+	 */
 	public void roomTest1(){
 		CludoBoard board = makeBoard(filePath+ "roomTest.txt");
 		for (int x = 0; x < board.getWidth(); x++){
@@ -52,6 +62,9 @@ public class BoardTests {
 	
 	
 	@Test
+	/**
+	 * Test to check that no player should start out in a room
+	 */
 	public void roomTest2(){
 		CludoBoard board = makeBoard("CludoGameBoard");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
@@ -64,8 +77,11 @@ public class BoardTests {
 	}
 	
 	@Test
+	/**
+	 * Test for when player enter a room it says they are in thr room .
+	 */
 	public void roomTest3(){
-		CludoBoard board = makeBoard("CludoGameBoard");
+		CludoBoard board = makeBoard("CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
 		board.startGame(playerList);
 		int i = 0;
@@ -73,10 +89,9 @@ public class BoardTests {
 			for (int y = 0; y<board.getHeight(); y++){
 				Location l = new Location(x, y);
 				if (board.isDoor(l)){
-					playerList.get(i).setLocation(l);
-					playerList.get(i).setTurn();
+					board.getTurnPlayer().setLocation(l);
 					board.moveToAndFromRooms(l);
-					playerList.get(i).setTurn();
+					board.endTurn();
 					i++;
 				}
 				if(i >= playerList.size()) break;
@@ -90,11 +105,24 @@ public class BoardTests {
 		}
 	}
 	
+
 	
+	/**
+	 * Helper method that makes a board from a file name.
+	 * @param fileName - name of the file.
+	 * @return - constructed board.
+	 */
 	private CludoBoard makeBoard(String fileName){
 		return new CludoBoard(new File(fileName));
 	}
 	
+	/**
+	 * Helper method for making a list of players
+	 * @param playerNames - names of players
+	 * @param characterNames - names of characters
+	 * @param board - the board they will be added to.
+	 * @return - a player list.
+	 */
 	private List<Player> makePlayerList(List<String> playerNames, List<String> characterNames, CludoBoard board){
 		List<Player> playerList = new ArrayList<Player>();
 		for (int i = 0; i < playerNames.size() && i <characterNames.size(); i++){
@@ -103,6 +131,10 @@ public class BoardTests {
 		return playerList;
 	}
 	
+	/**
+	 * Makes a list of player names 
+	 * @return - returns a list of player names.
+	 */
 	private List<String> getPlayerNameList(){
 		List<String> arrayListOfNames = new ArrayList<String>();
 		String[] names = new String[]{"Jim" , "Tim", "Lim", "Sim", "Fim"};
@@ -112,6 +144,10 @@ public class BoardTests {
 		return arrayListOfNames;
 	}
 	
+	/**
+	 * Makes a list of character names
+	 * @return - list of character names.
+	 */
 	private List<String> getCharacterNameList(){
 		List<String> arrayListOfNames = new ArrayList<String>();
 		String[] names = new String[]{"Miss Scarlet" , "Professor Plum", "Reverand Green", "Mrs White", "Colonel Mustard"};
@@ -121,6 +157,10 @@ public class BoardTests {
 		return arrayListOfNames;
 	}
 	
+	/**
+	 * Makes a bad list of character names.
+	 * @return
+	 */
 	private List<String> getBadCharacterNameList(){
 		List<String> arrayListOfNames = new ArrayList<String>();
 		String[] names = new String[]{"jim" , "tim", "cat", "legs", "happyCamper"};
