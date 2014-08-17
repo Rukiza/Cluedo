@@ -99,7 +99,7 @@ public class Card {
 	 */
 	public BufferedImage loadImage(String imagePath){
 		
-		java.net.URL imageURL = Card.class.getResource("../../../images/"+name+".png");
+		java.net.URL imageURL = Card.class.getResource("images/"+name+".png");
 		System.out.println(imageURL);
 		try {
 			BufferedImage image  = ImageIO.read(imageURL);
