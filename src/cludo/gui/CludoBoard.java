@@ -602,6 +602,7 @@ public class CludoBoard {
 	public void endTurn() {
 		Player player = turn.poll();
 		player.setTurn();
+		player.updateMove(0);
 		turn.offer(player);
 		turn.peek().setTurn();
 	}

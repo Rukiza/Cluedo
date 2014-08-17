@@ -65,7 +65,7 @@ public class BoardTests {
 	 * Test to check that no player should start out in a room
 	 */
 	public void roomTest2() {
-		CludoBoard board = makeBoard("CludoGameBoard");
+		CludoBoard board = makeBoard("CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(),
 				getCharacterNameList(), board);
 		board.startGame(playerList);
@@ -165,6 +165,33 @@ public class BoardTests {
 			}
 			if (!board.isSquareEmpty(player.getLocation())){
 				fail("Player square should be empty");
+			}
+		}
+	}
+	
+	@Test
+	public void playerTest1(){
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard("CludoGameBoard.txt"));
+		assertEquals("Players name should equal the name they are given", playerList.get(0).getName(), "Jim");
+	}
+	
+	@Test
+	public void playerTest2(){
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard("CludoGameBoard.txt"));
+		assertEquals("Players characters name should equal", playerList.get(0).getCharacterName(), "Miss Scarlet");
+	}
+	
+	@Test
+	public void playerTest3(){
+		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
+		for (int x = 0; x < board.getWidth(); x++){
+			for (int y = 0; y < board.getHeight(); y++){
+				Location l = new Location(x, y);
+				Player p = playerList.get(0);
+				if (board.findSpawn(p.getCharacterName()).equals(l) && !l.equals(p.getLocation())){
+					fail("Players starting location should be there spawn location");
+				}
 			}
 		}
 	}
