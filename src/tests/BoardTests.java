@@ -13,6 +13,8 @@ import cludo.game.player.Character;
 import cludo.gui.CludoBoard;
 import cludo.util.Dice;
 import cludo.util.Location;
+import cludo.util.Move;
+import cludo.util.PathFinder;
 
 public class BoardTests {
 
@@ -170,18 +172,27 @@ public class BoardTests {
 	}
 	
 	@Test
+	/**
+	 * Checks that the name enters was the name that was saved
+	 */
 	public void playerTest1(){
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard("CludoGameBoard.txt"));
 		assertEquals("Players name should equal the name they are given", playerList.get(0).getName(), "Jim");
 	}
 	
 	@Test
+	/**
+	 * Checks that the characters name was correct
+	 */
 	public void playerTest2(){
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard("CludoGameBoard.txt"));
 		assertEquals("Players characters name should equal", playerList.get(0).getCharacterName(), "Miss Scarlet");
 	}
 	
 	@Test
+	/**
+	 * Checks that is starts out at the spawn location
+	 */
 	public void playerTest3(){
 		CludoBoard board = makeBoard("CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
@@ -191,6 +202,30 @@ public class BoardTests {
 				Player p = playerList.get(0);
 				if (board.findSpawn(p.getCharacterName()).equals(l) && !l.equals(p.getLocation())){
 					fail("Players starting location should be there spawn location");
+				}
+			}
+		}
+	}
+	
+	@Test
+	/**
+	 * Tests the pathfinder should return a list larger than two
+	 */
+	public void pathFinderTest(){
+		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
+		board.startGame(playerList);
+		Move move = new Move(board);
+		// path finder requires move.
+		PathFinder pathfinder = new PathFinder();
+		for (int x = 0; x < board.getWidth(); x++){
+			for (int y = 0; y < board.getHeight(); y++){
+				Location l = new Location(x, y);
+				if (board.isFloor(l) || board.isDoor(l)){
+					List<Location> location = pathfinder.findPath(playerList.get(0).getLocation(), l);
+					if (!l.equals(playerList.get(0).getLocation()) && location.size() < 2){
+						fail("Path should always contain two location if it is one space away and is mmovable to");
+					}
 				}
 			}
 		}
