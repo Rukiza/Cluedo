@@ -76,6 +76,11 @@ public class CludoBoard {
 		test();
 	}
 
+	/**
+	 * Finds the spawn location base on the players characters name.
+	 * @param character - characters that the player is playings name
+	 * @return - returns the location that is there start point.
+	 */
 	public Location findSpawn(String character) {
 		for (int row = 0; row < board.length; row++) {
 			for (int col = 0; col < board[0].length; col++) {

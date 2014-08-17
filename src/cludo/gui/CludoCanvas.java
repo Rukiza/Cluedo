@@ -362,12 +362,22 @@ public class CludoCanvas extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws the players portrat
+	 * @param player - the player that is to be drawn
+	 * @param g - canvas.
+	 */
 	private void drawPlayerPortrait(Player player, Graphics g) {
 		BufferedImage image = player.getPortrait();
 		g.drawImage(image, board.getWidth() * squareSize, 11 * squareSize,
 				null, null);
 	}
 
+	/**
+	 * Draws the players hand.
+	 * @param player - player whos hand is to be drawn.
+	 * @param g
+	 */
 	private void drawPlayersHand(Player player, Graphics g) {
 		g.setColor(getPlayerColor(player.getCharacterName()));
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 25));
@@ -388,6 +398,11 @@ public class CludoCanvas extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws the players move amount.
+	 * @param player - players whos move amount is to be drawn
+	 * @param g - where it will be drawn.
+	 */
 	private void drawPlayerMoveAmount(Player player, Graphics g) {
 		int currentMove = player.getCurrentMove();
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
@@ -395,6 +410,10 @@ public class CludoCanvas extends JPanel {
 				movementTextPositionY);
 	}
 
+	/**
+	 * Draws the dice.
+	 * @param g
+	 */
 	private void drawDice(Graphics g) {
 		g.setColor(diceColor);
 		int gap = 10;
@@ -407,6 +426,13 @@ public class CludoCanvas extends JPanel {
 
 	}
 
+	/**
+	 * Draws the face of the dice
+	 * @param x - where in x
+	 * @param y - where in y cords
+	 * @param g - the place it is to be drawn.
+	 * @param roll - the roll that the player got.
+	 */
 	private void drawDiceFace(int x, int y, Graphics g, int roll) {
 		g.setColor(diceFace);
 		if (roll == 1) {
@@ -425,6 +451,7 @@ public class CludoCanvas extends JPanel {
 		g.setColor(diceColor);
 	}
 
+	//==========================Dice drawing methods=========================//
 	private void drawDiceFaceOne(int x, int y, Graphics g) {
 		g.fillOval(x + diceSize / 2 - diceNumberSize / 2, y + diceSize / 2
 				- diceNumberSize / 2, diceNumberSize, diceNumberSize);
@@ -464,6 +491,7 @@ public class CludoCanvas extends JPanel {
 		g.fillOval(x + diceSize / 2 - diceNumberSize / 2, y + (diceSize / 4)
 				* 3 - diceNumberSize / 2, diceNumberSize, diceNumberSize);
 	}
+	//==========================Dice drawing methods end here=================//
 
 	/**
 	 * Handles drawing of secret passages.
@@ -529,18 +557,32 @@ public class CludoCanvas extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws the secret passage to in the color that is its.
+	 * @param location - the location of the passage.
+	 * @param g - the place it is to be drawn
+	 */
 	private void drawSecretPassageTwo(Location location, Graphics g) {
 		g.setColor(secret2);
 		g.fillRect(location.x * squareSize, location.y * squareSize,
 				squareSize, squareSize);
 	}
 
+	/**
+	 * Draws the secret passage in the color thay is ment to be in.
+	 * @param location - location that the tile is to be drawn.
+	 * @param g - graphics object that the tile is to be drawn on.
+	 */
 	private void drawSecretPassageOne(Location location, Graphics g) {
 		g.setColor(secret1);
 		g.fillRect(location.x * squareSize, location.y * squareSize,
 				squareSize, squareSize);
 	}
 	
+	/**
+	 * Method that draws all the room names in there correct positions.
+	 * @param g - graphics object that the names are to be drawn on.
+	 */
 	private void drawRoomNames(Graphics g){
 		g.setColor(roomNameColor);
 		g.setFont(roomNameFont);

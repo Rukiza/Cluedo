@@ -46,14 +46,26 @@ public class Deck {
 		this.deck = new LinkedList<Card>(shuffle);
 	}
 	
+	/**
+	 * Deals out a card from the deck.
+	 * @return - card from the top of the deck.
+	 */
 	public Card dealCard(){
 		return deck.poll();
 	}
 	
+	/**
+	 * Places a card back onto the bottom of the deck.
+	 * @param card - card to be added.
+	 */
 	public void placeCard(Card card){
 		deck.offer(card);
 	}
 	
+	/**
+	 * checks if the deck is empty.
+	 * @return - true if the deck is empty.
+	 */
 	public boolean isEmpty(){
 		return deck.isEmpty();
 	}

@@ -76,6 +76,12 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 	}
 
+	/**
+	 * Constrcts a tool bar with buttons for accuse, suggest, rolldice and end
+	 * turn.
+	 * 
+	 * @param eventBar
+	 */
 	private void addButtonToToolBar(JToolBar eventBar) {
 		JButton button = new JButton("Accuse");
 		eventBar.add(button);
@@ -168,6 +174,11 @@ public class CludoFrame extends JFrame implements WindowListener {
 		});
 	}
 
+	/**
+	 * Called by the suggest button and handles suggest logic and construction
+	 * of the suggest dialog box. makes sure that the game has started before
+	 * buttons work.
+	 */
 	private static void saggest() {
 		final JDialog pane = new JDialog();
 
@@ -220,6 +231,9 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 	}
 
+	/**
+	 * Makes a accuse panel that players can use to accuse and win the game.
+	 */
 	private static void accuse() {
 		final JDialog pane = new JDialog();
 
@@ -239,19 +253,21 @@ public class CludoFrame extends JFrame implements WindowListener {
 
 		panel.add(weapons);
 
-		JButton button = new JButton("Suggestion");
+		JButton button = new JButton("Accuse");
 		panel.add(button);
 		button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Card roomChosen = (Card) rooms.getSelectedItem();
-				Card charactersChosen = (Card) characters.getSelectedItem();
-				Card weaponChosen = (Card) weapons.getSelectedItem();
-				Accuse accuse = new Accuse(roomChosen, charactersChosen,
-						weaponChosen);
-				pane.dispose();
-				board.handleAccuse(accuse);
+				if (e.getActionCommand().equals("Accuse")) {
+					Card roomChosen = (Card) rooms.getSelectedItem();
+					Card charactersChosen = (Card) characters.getSelectedItem();
+					Card weaponChosen = (Card) weapons.getSelectedItem();
+					Accuse accuse = new Accuse(roomChosen, charactersChosen,
+							weaponChosen);
+					pane.dispose();
+					board.handleAccuse(accuse);
+				}
 			}
 		});
 
@@ -262,7 +278,11 @@ public class CludoFrame extends JFrame implements WindowListener {
 		pane.setVisible(true);
 
 	}
-
+	
+	/**
+	 * makes the j combo boex for weapons.
+	 * @return
+	 */
 	private static JComboBox<Card> getWeapons() {
 		JComboBox<Card> weapon = new JComboBox<Card>();
 		weapon.addItem(new Card(Card.Type.WEAPON, "Spanner"));
@@ -274,6 +294,10 @@ public class CludoFrame extends JFrame implements WindowListener {
 		return weapon;
 	}
 
+	/**
+	 * Makes the JComboBox for rooms
+	 * @return
+	 */
 	private static JComboBox<Card> getRooms() {
 		JComboBox<Card> room = new JComboBox<Card>();
 		room.addItem(new Card(Card.Type.ROOM, "Kitchen"));
@@ -288,6 +312,10 @@ public class CludoFrame extends JFrame implements WindowListener {
 		return room;
 	}
 
+	/**
+	 * Makes the JComboBox for characters.
+	 * @return
+	 */
 	private static JComboBox<Card> getCharacters() {
 		JComboBox<Card> character = new JComboBox<Card>();
 		character.addItem(new Card(Card.Type.CHARACTER, "MissScarlett"));
@@ -299,6 +327,9 @@ public class CludoFrame extends JFrame implements WindowListener {
 		return character;
 	}
 
+	/**
+	 * Adds a different event to the window closing operation.
+	 */
 	public void windowClosing(WindowEvent e) {
 		int option = JOptionPane.showConfirmDialog(CludoFrame.this, new JLabel(
 				"Exiting Cluedo"), "Confirm Exit", JOptionPane.YES_NO_OPTION,

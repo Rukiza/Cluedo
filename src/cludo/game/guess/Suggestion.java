@@ -11,12 +11,23 @@ public class Suggestion implements Iterable<Card>{
 	private Card murderWeapon;
 	private Card murderCharacter;
 	
+	/**
+	 * Constructs a sugestion depending on what the player picked
+	 * @param murderRoom - room that was suggested
+	 * @param murderWeapon - weapon that was suggested
+	 * @param murderCharacter -  character that was suggested.
+	 */
 	public Suggestion (Card murderRoom, Card murderWeapon, Card murderCharacter){
 		this.murderRoom = murderRoom;
 		this.murderWeapon = murderWeapon;
 		this.murderCharacter = murderCharacter;
 	}
 	
+	/**
+	 * Logic for the suggestion being refuted based on the players hand.
+	 * @param playerHand -  playerhand that is doing the refuting.
+	 * @return - returns a list of cards that the player can refute with.
+	 */
 	public List<Card> refute(Hand playerHand){
 		List<Card> cardsThatMatch = new ArrayList<Card>();
 		for (Card c: playerHand){
