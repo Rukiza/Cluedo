@@ -86,6 +86,19 @@ public class CludoCanvas extends JPanel {
 	private final int movementTextPositionX = dicePositionX + 10;
 	private final int movementTextPositionY = 2 * diceSize + dicePositionY + 30
 			+ 20;
+	
+	//Room names color font
+	private final Color roomNameColor = Color.black;
+	private final Font roomNameFont = new Font("TimesRoman", Font.PLAIN, 25);
+	private final Location kitchenNameLocation = new Location(1, 4);
+	private final Location studyNameLocation = new Location(20, 23);
+	private final Location ballroomNameLocation = new Location(10, 4);
+	private final Location billiardroomNameLocation = new Location(19, 11);
+	private final Location libraryNameLocation = new Location(20, 17);
+	private final Location dinningroomNameLocation = new Location(2, 13);
+	private final Location conservatoryNameLocation = new Location(19, 4);
+	private final Location loungeNameLocation = new Location(2, 22);
+	private final Location hallNameLocation = new Location(12, 22);
 
 	@Override
 	public void paint(Graphics g) {
@@ -117,6 +130,7 @@ public class CludoCanvas extends JPanel {
 				// calls draw player makes other calls to player only draws.
 			}
 		}
+		drawRoomNames(g);
 		drawPlayers(g);
 		drawDice(g);
 		g.dispose();
@@ -525,6 +539,20 @@ public class CludoCanvas extends JPanel {
 		g.setColor(secret1);
 		g.fillRect(location.x * squareSize, location.y * squareSize,
 				squareSize, squareSize);
+	}
+	
+	private void drawRoomNames(Graphics g){
+		g.setColor(roomNameColor);
+		g.setFont(roomNameFont);
+		g.drawString("Kitchen", kitchenNameLocation.x*squareSize, kitchenNameLocation.y*squareSize);
+		g.drawString("Conservatory", conservatoryNameLocation.x*squareSize, conservatoryNameLocation.y*squareSize);
+		g.drawString("Hall", hallNameLocation.x*squareSize, hallNameLocation.y*squareSize);
+		g.drawString("Study", studyNameLocation.x*squareSize, studyNameLocation.y*squareSize);
+		g.drawString("Library", libraryNameLocation.x*squareSize, libraryNameLocation.y*squareSize);
+		g.drawString("Billiard Room", billiardroomNameLocation.x*squareSize, billiardroomNameLocation.y*squareSize);
+		g.drawString("Dining Room", dinningroomNameLocation.x*squareSize, dinningroomNameLocation.y*squareSize);
+		g.drawString("Ball Room", ballroomNameLocation.x*squareSize, ballroomNameLocation.y*squareSize);
+		g.drawString("Lounge", loungeNameLocation.x*squareSize, loungeNameLocation.y*squareSize);
 	}
 
 	/**
