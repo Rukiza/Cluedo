@@ -98,8 +98,11 @@ public class Card {
 	 * @return
 	 */
 	public BufferedImage loadImage(String imagePath){
+		
+		java.net.URL imageURL = Card.class.getResource("../../../images/"+name+".png");
+		System.out.println(imageURL);
 		try {
-			BufferedImage image  = ImageIO.read(new File("src/images/"+name+".png"));
+			BufferedImage image  = ImageIO.read(imageURL);
 			return image;
 	
 		} catch (IOException e) {

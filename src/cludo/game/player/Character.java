@@ -24,7 +24,7 @@ public class Character {
 	    GraphicsDevice device = env.getDefaultScreenDevice();
 	    GraphicsConfiguration config = device.getDefaultConfiguration();
 	    BufferedImage buffy = config.createCompatibleImage(CludoCanvas.cardWidth*3 ,14*CludoCanvas.squareSize , Transparency.TRANSLUCENT);
-		image =  loadImage("src/portraits/"+name+".jpg");
+		image =  loadImage("../../../portraits/"+name+".jpg");
 		Graphics2D g2 = buffy.createGraphics();
 		g2.drawImage(image, 0, 0, CludoCanvas.cardWidth*3, 14*CludoCanvas.squareSize, null);
 		image = buffy;
@@ -32,8 +32,9 @@ public class Character {
 	
 	public BufferedImage loadImage(String imagePath){
 
+		java.net.URL imageURL = Character.class.getResource(imagePath);
 		try {
-			BufferedImage image  = ImageIO.read(new File(imagePath));
+			BufferedImage image  = ImageIO.read(imageURL);
 			return image;
 	
 		} catch (IOException e) {
