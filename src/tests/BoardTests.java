@@ -207,11 +207,13 @@ public class BoardTests {
 		}
 	}
 	
+
+	
 	@Test
 	/**
 	 * Tests the pathfinder should return a list larger than two
 	 */
-	public void pathFinderTest(){
+	public void pathFinderTest1(){
 		CludoBoard board = makeBoard("CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
 		board.startGame(playerList);
@@ -230,6 +232,32 @@ public class BoardTests {
 			}
 		}
 	}
+	
+	@Test
+	/**
+	 * checks that paths that involve rooms or outter walls cant be made.
+	 */
+	public void pathFinderTest2(){
+		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
+		board.startGame(playerList);
+		Move move = new Move(board);
+		// path finder requires move.
+		PathFinder pathfinder = new PathFinder();
+		for (int x = 0; x < board.getWidth(); x++){
+			for (int y = 0; y < board.getHeight(); y++){
+				Location l = new Location(x, y);
+				if (board.isRoom(l) || board.isOutterWall(l)){
+					List<Location> location = pathfinder.findPath(playerList.get(0).getLocation(), l);
+					if(location != null){
+						fail("if the place is unreacheable it should return null");
+					}
+				}
+			}
+		}
+	}
+	
+
 
 	/**
 	 * Helper method that makes a board from a file name.
