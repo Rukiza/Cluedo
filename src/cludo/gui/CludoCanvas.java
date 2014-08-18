@@ -1,5 +1,6 @@
 package cludo.gui;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,7 +15,7 @@ import cludo.game.player.Player;
 import cludo.util.Dice;
 import cludo.util.Location;
 
-public class CludoCanvas extends JPanel {
+public class CludoCanvas extends Canvas {
 
 	private CludoBoard board;
 	public static Dice dice;
