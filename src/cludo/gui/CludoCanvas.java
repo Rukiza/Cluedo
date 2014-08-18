@@ -290,7 +290,7 @@ public class CludoCanvas extends Canvas {
 			for (Player p : playerList) {
 				if (p.isTurn() && p.currentPath != null) {
 					List<Location> path = p.currentPath;
-					if (path.size()-1  <= dice.getRollOne()+dice.getRollTwo() && p.getCurrentMove() != 0) {
+					if (path.size()-1  <= dice.getRollOne()+dice.getRollTwo() ) {
 					for (Location l : path) {
 						g.setColor(floorColorHiglight);
 						g.fillRect(l.x * squareSize, l.y * squareSize,
