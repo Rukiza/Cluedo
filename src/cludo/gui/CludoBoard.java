@@ -629,6 +629,7 @@ public class CludoBoard {
 		player.setTurn();
 		player.updateMove(0);
 		turn.offer(player);
+		CludoCanvas.dice.reset();
 		turn.peek().setTurn();
 	}
 

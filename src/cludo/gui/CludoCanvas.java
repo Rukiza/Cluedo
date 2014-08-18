@@ -290,7 +290,7 @@ public class CludoCanvas extends Canvas {
 			for (Player p : playerList) {
 				if (p.isTurn() && p.currentPath != null) {
 					List<Location> path = p.currentPath;
-					// if (path.size() - 1 < p.getCurrentMove()) {
+					if (path.size()-1  <= dice.getRollOne()+dice.getRollTwo() && p.getCurrentMove() != 0) {
 					for (Location l : path) {
 						g.setColor(floorColorHiglight);
 						g.fillRect(l.x * squareSize, l.y * squareSize,
@@ -299,7 +299,7 @@ public class CludoCanvas extends Canvas {
 						g.drawRect(l.x * squareSize, l.y * squareSize,
 								squareSize, squareSize);
 					}
-					// }
+					}
 
 				}
 				if (p.isTurn() && !refuteDrawCase) {

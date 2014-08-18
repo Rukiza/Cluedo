@@ -30,4 +30,9 @@ public class Dice {
 		rollTwo = (int)(Math.random()*6) +1;
 		return rollOne + rollTwo;
 	}
+	
+	public void reset(){
+		rollOne = 0;
+		rollTwo = 0;
+	}
 }
