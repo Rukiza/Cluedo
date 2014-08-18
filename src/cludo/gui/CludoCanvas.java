@@ -90,7 +90,7 @@ public class CludoCanvas extends Canvas {
 
 	// Room names color font
 	private final Color roomNameColor = Color.black;
-	private final Font roomNameFont = new Font("TimesRoman", Font.PLAIN, 25);
+	private final Font roomNameFont = new Font("TimesRoman", Font.PLAIN, 18);
 	private final Location kitchenNameLocation = new Location(1, 4);
 	private final Location studyNameLocation = new Location(20, 23);
 	private final Location ballroomNameLocation = new Location(10, 4);
