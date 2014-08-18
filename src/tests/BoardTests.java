@@ -19,6 +19,7 @@ import cludo.util.PathFinder;
 public class BoardTests {
 
 	private String filePath = "TestBoards/";
+	private String boardFilePath = "src/cludo/";
 
 	@Test
 	/**
@@ -67,7 +68,7 @@ public class BoardTests {
 	 * Test to check that no player should start out in a room
 	 */
 	public void roomTest2() {
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(),
 				getCharacterNameList(), board);
 		board.startGame(playerList);
@@ -83,7 +84,7 @@ public class BoardTests {
 	 * Test for when player enter a room it says they are in the room .
 	 */
 	public void roomTest3() {
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(),
 				getCharacterNameList(), board);
 		board.startGame(playerList);
@@ -115,7 +116,7 @@ public class BoardTests {
 	 * Tests moving into a room form a secret passage.
 	 */
 	public void roomTest4() {
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(),
 				getCharacterNameList(), board);
 		board.startGame(playerList);
@@ -148,7 +149,7 @@ public class BoardTests {
 	 * a floor is a floor and is always empty.
 	 */
 	public void floorTest1(){
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(),
 				getCharacterNameList(), board);
 		board.startGame(playerList);
@@ -176,7 +177,7 @@ public class BoardTests {
 	 * Checks that the name enters was the name that was saved
 	 */
 	public void playerTest1(){
-		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard("CludoGameBoard.txt"));
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard(boardFilePath+"CludoGameBoard.txt"));
 		assertEquals("Players name should equal the name they are given", playerList.get(0).getName(), "Jim");
 	}
 	
@@ -185,7 +186,7 @@ public class BoardTests {
 	 * Checks that the characters name was correct
 	 */
 	public void playerTest2(){
-		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard("CludoGameBoard.txt"));
+		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), makeBoard(boardFilePath+"CludoGameBoard.txt"));
 		assertEquals("Players characters name should equal", playerList.get(0).getCharacterName(), "Miss Scarlet");
 	}
 	
@@ -194,7 +195,7 @@ public class BoardTests {
 	 * Checks that is starts out at the spawn location
 	 */
 	public void playerTest3(){
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
 		for (int x = 0; x < board.getWidth(); x++){
 			for (int y = 0; y < board.getHeight(); y++){
@@ -214,7 +215,7 @@ public class BoardTests {
 	 * Tests the pathfinder should return a list larger than two
 	 */
 	public void pathFinderTest1(){
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
 		board.startGame(playerList);
 		Move move = new Move(board);
@@ -238,7 +239,7 @@ public class BoardTests {
 	 * checks that paths that involve rooms or outter walls cant be made.
 	 */
 	public void pathFinderTest2(){
-		CludoBoard board = makeBoard("CludoGameBoard.txt");
+		CludoBoard board = makeBoard(boardFilePath+"CludoGameBoard.txt");
 		List<Player> playerList = makePlayerList(getPlayerNameList(), getCharacterNameList(), board);
 		board.startGame(playerList);
 		Move move = new Move(board);
