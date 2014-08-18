@@ -87,8 +87,8 @@ public class CludoCanvas extends Canvas {
 	private final int movementTextPositionX = dicePositionX + 10;
 	private final int movementTextPositionY = 2 * diceSize + dicePositionY + 30
 			+ 20;
-	
-	//Room names color font
+
+	// Room names color font
 	private final Color roomNameColor = Color.black;
 	private final Font roomNameFont = new Font("TimesRoman", Font.PLAIN, 25);
 	private final Location kitchenNameLocation = new Location(1, 4);
@@ -134,7 +134,7 @@ public class CludoCanvas extends Canvas {
 		drawRoomNames(g);
 		drawPlayers(g);
 		drawDice(g);
-		//g.dispose();
+		// g.dispose();
 		// bufferStrat.show();
 	}
 
@@ -280,6 +280,7 @@ public class CludoCanvas extends Canvas {
 			for (Player p : playerList) {
 				if (p.isTurn() && p.currentPath != null) {
 					List<Location> path = p.currentPath;
+					// if (path.size() - 1 < p.getCurrentMove()) {
 					for (Location l : path) {
 						g.setColor(floorColorHiglight);
 						g.fillRect(l.x * squareSize, l.y * squareSize,
@@ -288,6 +289,7 @@ public class CludoCanvas extends Canvas {
 						g.drawRect(l.x * squareSize, l.y * squareSize,
 								squareSize, squareSize);
 					}
+					// }
 
 				}
 				if (p.isTurn() && !refuteDrawCase) {
@@ -365,8 +367,11 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the players portrat
-	 * @param player - the player that is to be drawn
-	 * @param g - canvas.
+	 * 
+	 * @param player
+	 *            - the player that is to be drawn
+	 * @param g
+	 *            - canvas.
 	 */
 	private void drawPlayerPortrait(Player player, Graphics g) {
 		BufferedImage image = player.getPortrait();
@@ -376,7 +381,9 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the players hand.
-	 * @param player - player whos hand is to be drawn.
+	 * 
+	 * @param player
+	 *            - player whos hand is to be drawn.
 	 * @param g
 	 */
 	private void drawPlayersHand(Player player, Graphics g) {
@@ -401,8 +408,11 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the players move amount.
-	 * @param player - players whos move amount is to be drawn
-	 * @param g - where it will be drawn.
+	 * 
+	 * @param player
+	 *            - players whos move amount is to be drawn
+	 * @param g
+	 *            - where it will be drawn.
 	 */
 	private void drawPlayerMoveAmount(Player player, Graphics g) {
 		int currentMove = player.getCurrentMove();
@@ -413,6 +423,7 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the dice.
+	 * 
 	 * @param g
 	 */
 	private void drawDice(Graphics g) {
@@ -429,10 +440,15 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the face of the dice
-	 * @param x - where in x
-	 * @param y - where in y cords
-	 * @param g - the place it is to be drawn.
-	 * @param roll - the roll that the player got.
+	 * 
+	 * @param x
+	 *            - where in x
+	 * @param y
+	 *            - where in y cords
+	 * @param g
+	 *            - the place it is to be drawn.
+	 * @param roll
+	 *            - the roll that the player got.
 	 */
 	private void drawDiceFace(int x, int y, Graphics g, int roll) {
 		g.setColor(diceFace);
@@ -452,7 +468,7 @@ public class CludoCanvas extends Canvas {
 		g.setColor(diceColor);
 	}
 
-	//==========================Dice drawing methods=========================//
+	// ==========================Dice drawing methods=========================//
 	private void drawDiceFaceOne(int x, int y, Graphics g) {
 		g.fillOval(x + diceSize / 2 - diceNumberSize / 2, y + diceSize / 2
 				- diceNumberSize / 2, diceNumberSize, diceNumberSize);
@@ -492,12 +508,18 @@ public class CludoCanvas extends Canvas {
 		g.fillOval(x + diceSize / 2 - diceNumberSize / 2, y + (diceSize / 4)
 				* 3 - diceNumberSize / 2, diceNumberSize, diceNumberSize);
 	}
-	//==========================Dice drawing methods end here=================//
+
+	// ==========================Dice drawing methods end
+	// here=================//
 
 	/**
 	 * Handles drawing of secret passages.
-	 * @param location - that the secret passage may be drawn
-	 * @param g -  the place the secret passage will be drawn if the place is a secret passage.
+	 * 
+	 * @param location
+	 *            - that the secret passage may be drawn
+	 * @param g
+	 *            - the place the secret passage will be drawn if the place is a
+	 *            secret passage.
 	 */
 	private void drawSecretPassage(Location location, Graphics g) {
 		if (board.isSecretPassageOne(location)) {
@@ -560,8 +582,11 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the secret passage to in the color that is its.
-	 * @param location - the location of the passage.
-	 * @param g - the place it is to be drawn
+	 * 
+	 * @param location
+	 *            - the location of the passage.
+	 * @param g
+	 *            - the place it is to be drawn
 	 */
 	private void drawSecretPassageTwo(Location location, Graphics g) {
 		g.setColor(secret2);
@@ -571,35 +596,50 @@ public class CludoCanvas extends Canvas {
 
 	/**
 	 * Draws the secret passage in the color thay is ment to be in.
-	 * @param location - location that the tile is to be drawn.
-	 * @param g - graphics object that the tile is to be drawn on.
+	 * 
+	 * @param location
+	 *            - location that the tile is to be drawn.
+	 * @param g
+	 *            - graphics object that the tile is to be drawn on.
 	 */
 	private void drawSecretPassageOne(Location location, Graphics g) {
 		g.setColor(secret1);
 		g.fillRect(location.x * squareSize, location.y * squareSize,
 				squareSize, squareSize);
 	}
-	
+
 	/**
 	 * Method that draws all the room names in there correct positions.
-	 * @param g - graphics object that the names are to be drawn on.
+	 * 
+	 * @param g
+	 *            - graphics object that the names are to be drawn on.
 	 */
-	private void drawRoomNames(Graphics g){
+	private void drawRoomNames(Graphics g) {
 		g.setColor(roomNameColor);
 		g.setFont(roomNameFont);
-		g.drawString("Kitchen", kitchenNameLocation.x*squareSize, kitchenNameLocation.y*squareSize);
-		g.drawString("Conservatory", conservatoryNameLocation.x*squareSize, conservatoryNameLocation.y*squareSize);
-		g.drawString("Hall", hallNameLocation.x*squareSize, hallNameLocation.y*squareSize);
-		g.drawString("Study", studyNameLocation.x*squareSize, studyNameLocation.y*squareSize);
-		g.drawString("Library", libraryNameLocation.x*squareSize, libraryNameLocation.y*squareSize);
-		g.drawString("Billiard Room", billiardroomNameLocation.x*squareSize, billiardroomNameLocation.y*squareSize);
-		g.drawString("Dining Room", dinningroomNameLocation.x*squareSize, dinningroomNameLocation.y*squareSize);
-		g.drawString("Ball Room", ballroomNameLocation.x*squareSize, ballroomNameLocation.y*squareSize);
-		g.drawString("Lounge", loungeNameLocation.x*squareSize, loungeNameLocation.y*squareSize);
+		g.drawString("Kitchen", kitchenNameLocation.x * squareSize,
+				kitchenNameLocation.y * squareSize);
+		g.drawString("Conservatory", conservatoryNameLocation.x * squareSize,
+				conservatoryNameLocation.y * squareSize);
+		g.drawString("Hall", hallNameLocation.x * squareSize,
+				hallNameLocation.y * squareSize);
+		g.drawString("Study", studyNameLocation.x * squareSize,
+				studyNameLocation.y * squareSize);
+		g.drawString("Library", libraryNameLocation.x * squareSize,
+				libraryNameLocation.y * squareSize);
+		g.drawString("Billiard Room", billiardroomNameLocation.x * squareSize,
+				billiardroomNameLocation.y * squareSize);
+		g.drawString("Dining Room", dinningroomNameLocation.x * squareSize,
+				dinningroomNameLocation.y * squareSize);
+		g.drawString("Ball Room", ballroomNameLocation.x * squareSize,
+				ballroomNameLocation.y * squareSize);
+		g.drawString("Lounge", loungeNameLocation.x * squareSize,
+				loungeNameLocation.y * squareSize);
 	}
 
 	/**
 	 * Sets the players and adds them to the MouseListners
+	 * 
 	 * @param playerList
 	 */
 	public void setPlayers(List<Player> playerList) {
