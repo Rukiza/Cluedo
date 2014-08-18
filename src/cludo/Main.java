@@ -36,7 +36,7 @@ public class Main {
 		CludoBoard board = new CludoBoard(Main.class.getResourceAsStream("CludoGameBoard.txt"));
 		Dice dice = new Dice();
 		CludoCanvas canvas = new CludoCanvas(board, dice);
-		CludoFrame frame = new CludoFrame("Cludo", canvas, board);
+		CludoFrame frame = new CludoFrame("Cluedo", canvas, board);
 		Main.canvas = canvas;
 		playerCreation(frame, canvas, board, dice);
 		Move moveRules = new Move(board);
