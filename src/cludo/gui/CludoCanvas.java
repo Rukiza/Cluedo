@@ -133,7 +133,7 @@ public class CludoCanvas extends JPanel {
 		drawRoomNames(g);
 		drawPlayers(g);
 		drawDice(g);
-		g.dispose();
+		//g.dispose();
 		// bufferStrat.show();
 	}
 
