@@ -70,10 +70,14 @@ public class CludoBoard {
 	 * @param gameBoard
 	 *            -File that contains the game board.
 	 */
+	public CludoBoard(InputStream gameBoard) {
+		board = loadBoard(gameBoard);
+		rooms = new ArrayList<Room>();
+	}
+	
 	public CludoBoard(File gameBoard) {
 		board = loadBoard(gameBoard);
 		rooms = new ArrayList<Room>();
-		test();
 	}
 
 	/**
@@ -197,6 +201,21 @@ public class CludoBoard {
 	 *            - file name.
 	 * @return - returns a char array that represents the array
 	 */
+	public char[][] loadBoard(InputStream gameBoard) {
+		char[][] temp = new char[25][25];
+		try {
+			BufferedReader load = new BufferedReader(new InputStreamReader(gameBoard));
+			for (int i = 0; i < temp.length; i++) {
+				temp[i] = load.readLine().toCharArray();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return temp;
+	}
+	
 	public char[][] loadBoard(File gameBoard) {
 		char[][] temp = new char[25][25];
 		try {
@@ -211,6 +230,7 @@ public class CludoBoard {
 
 		return temp;
 	}
+
 
 	/**
 	 * Method that prints the board.
