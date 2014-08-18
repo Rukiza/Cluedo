@@ -20,16 +20,23 @@ public class Character {
 	public Character(String name) {
 		super();
 		this.name = name;
+		//================added to make image loading faster code from stack overflow===========//
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    GraphicsDevice device = env.getDefaultScreenDevice();
 	    GraphicsConfiguration config = device.getDefaultConfiguration();
-	    BufferedImage buffy = config.createCompatibleImage(CludoCanvas.cardWidth*3 ,14*CludoCanvas.squareSize , Transparency.TRANSLUCENT);
+	    BufferedImage newImage = config.createCompatibleImage(CludoCanvas.cardWidth*3 ,14*CludoCanvas.squareSize , Transparency.TRANSLUCENT);
+	    //================added to make image loading faster code from stack overflow===========//
 		image =  loadImage("portraits/"+name+".jpg");
-		Graphics2D g2 = buffy.createGraphics();
+		Graphics2D g2 = newImage.createGraphics();
 		g2.drawImage(image, 0, 0, CludoCanvas.cardWidth*3, 14*CludoCanvas.squareSize, null);
-		image = buffy;
+		image = newImage;
 	}
 	
+	/**
+	 * Reperpaced from DJP's pacman game
+	 * @param imagePath
+	 * @return
+	 */
 	public BufferedImage loadImage(String imagePath){
 
 		java.net.URL imageURL = Character.class.getResource(imagePath);

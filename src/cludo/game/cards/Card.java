@@ -36,16 +36,18 @@ public class Card {
 	 * @param name - name of the card e.g CandleStick
 	 */
 	public Card(Type type, String name){
+		//================added to make image loading faster code from stack overflow===========//
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    GraphicsDevice device = env.getDefaultScreenDevice();
 	    GraphicsConfiguration config = device.getDefaultConfiguration();
-	    BufferedImage buffy = config.createCompatibleImage(75, 110, Transparency.TRANSLUCENT);
+	    BufferedImage newImage = config.createCompatibleImage(75, 110, Transparency.TRANSLUCENT);
+	    //================added to make image loading faster code from stack overflow===========//
 		this.type = type;
 		this.name = name;
 		image =  loadImage("src/images/"+name+".png");
-		Graphics2D g2 = buffy.createGraphics();
+		Graphics2D g2 = newImage.createGraphics();
 		g2.drawImage(image, 0, 0, 75, 110, null);
-		image = buffy;
+		image = newImage;
 	}
 	
 	@Override
