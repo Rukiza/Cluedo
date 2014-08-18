@@ -33,7 +33,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		CludoBoard board = new CludoBoard(Main.class.getResourceAsStream("src/cludo/CludoGameBoard.txt"));
+		CludoBoard board = new CludoBoard(Main.class.getResourceAsStream("CludoGameBoard.txt"));
 		Dice dice = new Dice();
 		CludoCanvas canvas = new CludoCanvas(board, dice);
 		CludoFrame frame = new CludoFrame("Cludo", canvas, board);
