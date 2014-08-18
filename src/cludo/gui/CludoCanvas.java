@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -103,8 +104,17 @@ public class CludoCanvas extends Canvas {
 
 	@Override
 	public void paint(Graphics g) {
+		BufferStrategy bufferStrat = getBufferStrategy();
+		if(bufferStrat == null){
+			this.createBufferStrategy(2);
+			bufferStrat = getBufferStrategy();
+		}
+		g = bufferStrat.getDrawGraphics();
 		g.setColor(backGroundColor);
 		g.fillRect(0, 0, 1000, 720);
+	
+		
+		
 		for (int x = 0; x < board.getWidth(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
 				Location location = new Location(x, y);
@@ -134,8 +144,8 @@ public class CludoCanvas extends Canvas {
 		drawRoomNames(g);
 		drawPlayers(g);
 		drawDice(g);
-		// g.dispose();
-		// bufferStrat.show();
+		 g.dispose();
+		 bufferStrat.show();
 	}
 
 	/**
